@@ -22,30 +22,27 @@ class HomeController extends AbstractController
      */
     public function about(): Response
     {
-        return new Response(" I am a about page");
-        // return $this->render('home/index.html.twig', [
-        //     'controller_name' => 'HomeController',
-        // ]);
+        return $this->render('home/about.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
     }
     /**
      * @Route("/shop", name="shop")
      */
     public function shop(): Response
     {
-        return new Response(" I am a shop page");
-        // return $this->render('home/index.html.twig', [
-        //     'controller_name' => 'HomeController',
-        // ]);
+        return $this->render('home/shop.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
     }
     /**
      * @Route("/contact", name="contact")
      */
     public function contact(): Response
     {
-        return new Response(" I am a contact page");
-        // return $this->render('home/index.html.twig', [
-        //     'controller_name' => 'HomeController',
-        // ]);
+        return $this->render('home/contact.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
     }
     /**
      * @Route("/cart", name="cart")
