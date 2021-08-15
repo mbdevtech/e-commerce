@@ -59,9 +59,8 @@ class HomeController extends AbstractController
      */
     public function account(): Response
     {
-        return new Response(" I am a account page");
-        // return $this->render('home/index.html.twig', [
-        //     'controller_name' => 'HomeController',
-        // ]);
+        return $this->render('account/login-register.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
     }
 }
