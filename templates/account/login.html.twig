@@ -4,9 +4,24 @@
 	<!-- Begin Login Content Area -->
 	<div class="page-section mb-60">
 		<div class="container">
-			<div class="row">
+			<div
+				class="row">
+				<!-- Begin Li Banner Area -->
+				<div class="col-lg-4 col-md-4 text-center pt-xs-30">
+					<div class="li-banner">
+						<a href="#">
+							<img src="{{asset('layout/images/banner/1_1.jpg')}}" alt="">
+						</a>
+					</div>
+					<div class="li-banner mt-15 mt-sm-30 mt-xs-30">
+						<a href="#">
+							<img src="{{asset('layout/images/banner/1_2.jpg')}}" alt="">
+						</a>
+					</div>
+				</div>
+				<!-- Li Banner Area End Here -->
 				<div
-					class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
+					class="col-sm-12 col-md-8 col-xs-12 col-lg-8 mb-30">
 					<!-- Login Form s-->
 					<form method="POST">
 						{% if app.user %}

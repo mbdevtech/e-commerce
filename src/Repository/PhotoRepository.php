@@ -35,6 +35,17 @@ class PhotoRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @return Photo[] Returns an array of Photo objects
+     */
+    public function findByProductId($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.product_id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Photo
