@@ -51,17 +51,19 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
     }
-    // for each product add 1 photo
+    // for each product add 5 photo
     public function addPhotos(ObjectManager $om, Product $p)
     {
-        $photo = new Photo();
-        $photo->setProduct($p);
-        $photo->setTitle($p->getName());
-        $photo->setCaption($p->getName());
-        $path = 'layout/images/product/large-size/' . mt_rand(1, 13) . '.jpg';
-        $photo->setUrl($path);
-        $p->addPhoto($photo);
-        $om->persist($photo);
+        for ($i = 0; $i < 5; $i++) {
+            $photo = new Photo();
+            $photo->setProduct($p);
+            $photo->setTitle($p->getName());
+            $photo->setCaption($p->getName());
+            $path = 'layout/images/product/large-size/' . mt_rand(1, 13) . '.jpg';
+            $photo->setUrl($path);
+            $p->addPhoto($photo);
+            $om->persist($photo);
+        }
     }
     // for each product add A specification
     public function addSpecifications(ObjectManager $om, Product $p)
