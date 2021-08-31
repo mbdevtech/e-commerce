@@ -64,14 +64,4 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
-    /**
-     * @Route("/cart", name="cart")
-     */
-    public function cart(): Response
-    {
-        return new Response(" I am a cart page");
-        // return $this->render('home/index.html.twig', [
-        //     'controller_name' => 'HomeController',
-        // ]);
-    }
 }

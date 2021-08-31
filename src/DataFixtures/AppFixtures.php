@@ -10,12 +10,13 @@ use App\Entity\Category;
 use App\Entity\User;
 use App\Entity\Photo;
 use App\Entity\Specification;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-
         $categories = [
             "Computers", "Laptops", "Servers", "Workstations", "All-in-ones", "Tablets", "Samsung", "Nexus", "Apple",
             "Microsoft", "Lenovo", "Printers", "Canon", "Lexmark", "Brother", "Xerox", "HPLaserJet", "Accessories",

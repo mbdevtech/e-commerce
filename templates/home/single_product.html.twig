@@ -24,7 +24,8 @@
 					<!-- Product Details Left -->
 					<div class="product-details-left">
 						<div class="product-details-images slider-navigation-1">
-
+							category:
+							{{single[0].product.category.id}}
 							<div class="lg-image">
 								<a class="popup-img venobox vbox-item" href="" data-gall="myGallery">
 									<img src="{{asset(single[0].url)}}" alt="product image">
@@ -93,7 +94,7 @@
 								</ul>
 							</div>
 							<div class="price-box pt-20">
-								<span class="new-price new-price-2">$57.98</span>
+								<span class="new-price new-price-2">${{single[0].product.price}}</span>
 							</div>
 							<div class="product-desc">
 								<p>
@@ -118,9 +119,10 @@
 									<button class="add-to-cart" type="submit">Add to cart</button>
 								</form>
 							</div>
-							<div class="product-additional-info pt-25">
-								<a class="wishlist-btn" href="wishlist.html">
-									<i class="fa fa-heart-o"></i>Add to wishlist</a>
+							<div
+								class="product-additional-info pt-25">
+								{# <a class="wishlist-btn" href="wishlist.html">
+																									<i class="fa fa-heart-o"></i>Add to wishlist</a> #}
 								<div class="product-social-sharing pt-25">
 									<ul>
 										<li class="facebook">
@@ -319,7 +321,7 @@
 				<div class="col-lg-12">
 					<div class="li-section-title">
 						<h2>
-							<span>15 other products in the same category:</span>
+							<span>Products in the same category:</span>
 						</h2>
 					</div>
 					<div class="row">
