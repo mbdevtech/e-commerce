@@ -25,7 +25,9 @@
 					<div class="product-details-left">
 						<div class="product-details-images slider-navigation-1">
 							category:
-							{{single[0].product.category.id}}
+							{{single[0].product.category.name}}
+							Product:
+							{{single[0].product.id}}
 							<div class="lg-image">
 								<a class="popup-img venobox vbox-item" href="" data-gall="myGallery">
 									<img src="{{asset(single[0].url)}}" alt="product image">
@@ -103,7 +105,7 @@
 								</p>
 							</div>
 							<div class="single-add-to-cart">
-								<form action="#" class="cart-quantity">
+								<form action="{{path('cart_add',{'id': single[0].product.id} )}}" class="cart-quantity">
 									<div class="quantity">
 										<label>Quantity</label>
 										<div class="cart-plus-minus">
@@ -122,7 +124,7 @@
 							<div
 								class="product-additional-info pt-25">
 								{# <a class="wishlist-btn" href="wishlist.html">
-																									<i class="fa fa-heart-o"></i>Add to wishlist</a> #}
+																																									<i class="fa fa-heart-o"></i>Add to wishlist</a> #}
 								<div class="product-social-sharing pt-25">
 									<ul>
 										<li class="facebook">

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PhotoRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -16,19 +17,20 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="shopping_cart")
      */
-    public function index(SessionInterface $session, ProductRepository $productRepository)
+    public function index(SessionInterface $session, PhotoRepository $photoRepository)
     {
         $cart = $session->get('cart', []);
         // Add products to the Cart
         $productsCart = [];
         foreach ($cart as $id => $quantity) {
             $productsCart[] = [
-                'product' => $productRepository->findOneProductPhoto($id),
+                'product' => $photoRepository->findByProductId($id),
                 //'product' => $productRepository->find($id),
                 'quantity' => $quantity,
             ];
         }
-        return $this->render('shopping/cart/index.html.twig', [
+        //dd($productsCart);
+        return $this->render('cart/index.html.twig', [
             'cart' => $cart,
             'productsCart' => $productsCart,
         ]);

@@ -41,7 +41,7 @@ class PhotoRepository extends ServiceEntityRepository
     public function findByProductId($value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.product_id = :val')
+            ->andWhere('p.Product = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getResult();
