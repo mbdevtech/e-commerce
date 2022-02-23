@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+use function PHPUnit\Framework\returnSelf;
+
 class HomeController extends AbstractController
 {
     /**
@@ -50,10 +52,13 @@ class HomeController extends AbstractController
     public function single_product(int $id): Response
     {
         $single = $this->getDoctrine()->getRepository(Photo::class)->findBy(['Product' => $id]);
-        //dd($single);
-        return $this->render('home/single_product.html.twig', [
-            'single' => $single
-        ]);
+        if ($single)
+        {
+            return $this->render('home/single_product.html.twig', [
+                'single' => $single
+            ]);
+        }
+        else return $this->render('home/error.html.twig');
     }
     /**
      * @Route("/contact", name="contact")
