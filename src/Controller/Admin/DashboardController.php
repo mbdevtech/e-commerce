@@ -8,6 +8,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use App\Entity\Category;
+use App\Entity\Product;
+use App\Entity\User;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -19,7 +22,7 @@ class DashboardController extends AbstractDashboardController
         // redirect to some CRUD controller
         $routeBuilder = $this->get(AdminUrlGenerator::class);
 
-        return $this->redirect($routeBuilder->setController(CategoryCrudController::class)->generateUrl());
+        return $this->redirect($routeBuilder->setController(UserCrudController::class)->generateUrl());
 
         // you can also redirect to different pages depending on the current user
         if ('jane' === $this->getUser()->getUserIdentifier()) {
@@ -39,7 +42,15 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        return
+        [ MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+       
+        MenuItem::section('Shop'),
+        MenuItem::linkToCrud('Categories', 'fa fa-tags', Category::class),
+        MenuItem::linkToCrud('Products', 'fa fa-file-text', Product::class),
+
+        MenuItem::section('Users'),
+        MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
+    ];
     }
 }

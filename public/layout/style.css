@@ -4794,6 +4794,29 @@ span.required {
   background: #242424 none repeat scroll 0 0;
   color: #fff;
 }
+.btn-search {
+	background: #cccccc none repeat scroll 0 0;
+	border-color: rgba(0, 0, 0, 0);
+	box-shadow: 0.0625rem 0.0625rem 0.0625rem 0 rgba(0, 0, 0, 0.1);
+	color: #333333;
+	cursor: pointer;
+	font-size: 14px;
+	font-size: 0.875rem;
+	line-height: 15px;
+	padding: 5px;
+	-webkit-transition: all 0.3s ease-in-out 0s;
+	transition: all 0.3s ease-in-out 0s;
+	margin-top: 30px;
+}
+.btn-search::before {
+	content: "\f00d";
+	font-family: "fontawesome";
+	margin-right: 15px;
+}
+.btn-search:hover {
+  background: #242424 none repeat scroll 0 0;
+  color: #fff;
+}
 .category-sub-menu ul li ul {
   display: none;
   margin-top: 10px;
