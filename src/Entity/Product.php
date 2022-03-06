@@ -81,6 +81,12 @@ class Product
      */
     private $shippings;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="Products")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $brand;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
@@ -306,6 +312,18 @@ class Product
                 $shipping->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBrand(): ?Brand
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?Brand $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }

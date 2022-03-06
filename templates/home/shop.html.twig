@@ -1,6 +1,7 @@
 {% extends './base.html.twig' %}
 
 {% block main %}
+<body onload="clearAll()">
 	<!-- Begin Li's Breadcrumb Area -->
 	<div class="breadcrumb-area">
 		<div class="container">
@@ -1649,7 +1650,7 @@
 					</div>
 					<!-- shop-products-wrapper end -->
 				</div>
-				<div
+				<div onload="clearAll()"
 					class="col-lg-3 order-1 order-lg-1">
 
 					<!--sidebar-categores-box start  -->
@@ -1658,30 +1659,21 @@
 							<h2>Filter By</h2>
 						</div>
 						<!-- filter-sub-area start -->
+			
 						<div class="filter-sub-area">
 							<h5 class="filter-sub-titel">Categories</h5>
 							<div class="categori-checkbox">
 								<form action="#">
-									<ul>
-										<li><input type="checkbox" name="product-categori"><a href="#">All Categories (139)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Laptops (13)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Mobiles (12)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Gaming (11)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Printers (13)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Cameras (12)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Network (11)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Screens (13)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Accessories (12)</a>
-										</li>
-									</ul>
+								<ul id="categories">
+									<li><input type="checkbox" name="all-categories" id="all-categories" 
+											onchange="allCatChange()"><a href="#">All Categories (139)</a>
+									</li>
+									{% for cat in categories %}
+									<li><input type="checkbox" name="all-categories" id="" 
+											onchange=""><a href="#">{{cat.name}}</a>
+									</li>					
+									{% endfor %}
+								</ul>
 								</form>
 							</div>
 						</div>
@@ -1691,21 +1683,15 @@
 							<h5 class="filter-sub-titel">Brand</h5>
 							<div class="categori-checkbox">
 								<form action="#">
-									<ul>
-										<li><input type="checkbox" name="product-categori"><a href="#">All brands (139)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Asus (6)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Dell (23)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Canon (6)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Epson (44)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">HP (48)</a>
-										</li>
-										<li><input type="checkbox" name="product-categori"><a href="#">Samsung (13)</a>
-										</li>
+										<ul id="brands">
+											<li><input type="checkbox" name="all-brands" id="all-brands" 
+													onchange="allBrandChange()"><a href="#">All Brands (139)</a>
+											</li>
+											{% for item in brands %}
+											<li><input type="checkbox" name="all-categories" id="" 
+													onchange=""><a href="#">{{item.name}}</a>
+											</li>					
+											{% endfor %}
 									</ul>
 								</form>
 							</div>
@@ -1716,20 +1702,21 @@
 							<h5 class="filter-sub-titel">Price range</h5>
 							<div class="size-checkbox">
 								<form action="#">
-									<ul>
-										<li><input type="checkbox" name="product-size"><a href="#">All prices (139)</a>
+									<ul id="prices">
+										<li><input type="checkbox" name="all-prices" id="all-prices"
+										onchange="allPriceChange()"><a href="#">All prices (139)</a>
 										</li>
-										<li><input type="checkbox" name="product-size"><a href="#">0-$99 (31)</a>
+										<li><input type="checkbox" name="range1" id="range1"><a href="#">0-$99 (31)</a>
 										</li>
-										<li><input type="checkbox" name="product-size"><a href="#">$100-$199 (17)</a>
+										<li><input type="checkbox" name="range2" id="range2"><a href="#">$100-$199 (17)</a>
 										</li>
-										<li><input type="checkbox" name="product-size"><a href="#">$200-$299 (27)</a>
+										<li><input type="checkbox" name="range3" id="range3"><a href="#">$200-$299 (27)</a>
 										</li>
-										<li><input type="checkbox" name="product-size"><a href="#">$300-$399 (36)</a>
+										<li><input type="checkbox" name="range4" id="range4"><a href="#">$300-$399 (36)</a>
 										</li>
-										<li><input type="checkbox" name="product-size"><a href="#">$400-$499 (14)</a>
+										<li><input type="checkbox" name="range5" id="range5"><a href="#">$400-$499 (14)</a>
 										</li>
-										<li><input type="checkbox" name="product-size"><a href="#">$500+ (21)</a>
+										<li><input type="checkbox" name="range6" id="range6"><a href="#">$500+ (21)</a>
 										</li>
 									</ul>
 								</form>
@@ -1746,7 +1733,7 @@
 						<div class="category-tags">
 						<!-- btn-search clear-all start -->
 						<button class="btn-primary mb-sm-30 mb-xs-30">Search</button>
-						<button class="btn-danger mb-sm-30 mb-xs-30">Clear all</button>
+						<button class="btn-danger mb-sm-30 mb-xs-30" onclick="clearAll()">Clear all</button>
 						<!-- btn-search clear-all end -->
 						</div>
 						<!-- category-sub-menu end -->
@@ -1756,4 +1743,67 @@
 		</div>
 	</div>
 	<!-- Content Wraper Area End Here -->
+	</body>
+{% endblock %}
+{% block javascript %}
+<script text="javacript">
+
+	function allCatChange(){
+		
+		let c = document.getElementById("all-categories");
+		if (c.checked)
+		{    // call save to modify shipping address
+			updateInputs(true,1);		
+		}
+	  	else updateInputs(false,1);
+	}
+
+	function allBrandChange(){
+		let b = document.getElementById("all-brands");
+		if (b.checked)
+		{    // call save to modify shipping address
+			updateInputs(true,2);
+		}
+	  	else updateInputs(false,2);
+	}
+
+	function allPriceChange(){
+		 let p = document.getElementById("all-prices");
+		if (p.checked)
+		{    // call save to modify shipping address
+			updateInputs(true,3);;
+		}
+	  	else updateInputs(false,3);
+	}
+	function updateInputs(checked, type) {
+		let checks = null;
+		switch (type) {
+			// 1 : categories inputs
+			case 1:
+				checks = document.getElementById('categories').getElementsByTagName('input');
+				break;
+			// 2 : brands inputs
+			case 2:
+				checks = document.getElementById('brands').getElementsByTagName('input');
+				break;
+			// 1 : price range inputs
+			case 3:
+				checks = document.getElementById('prices').getElementsByTagName('input');
+				break;
+			}
+		let len = checks.length;
+		// make change for all inputs
+		for(let i=0; i<len ; i++){
+				checks[i].checked = checked;
+				if (i>0) checks[i].disabled = checked;
+		}
+	}
+	function clearAll() {
+		// Clear all filter and set to default
+		updateInputs(true, 1);
+		updateInputs(true, 2);
+		updateInputs(true, 3);
+	}
+</script>
+
 {% endblock %}

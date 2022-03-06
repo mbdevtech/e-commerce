@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+use App\Entity\Brand;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\User;
@@ -27,6 +28,9 @@ class AppFixtures extends Fixture
         $admin_user->setEmail("admin@myshop.com");
         $admin_user->setPassword("admin");
         $manager->persist($admin_user);
+
+        // create brands
+        $this->createBrands($manager);
         // for each category we create a few products
         for ($j = 0; $j < count($categories); $j++) {
             $cat = new Category();
@@ -41,6 +45,7 @@ class AppFixtures extends Fixture
                 $product->setExcerpt('product ' . $i . ' of ' . $cat->getName());
                 $product->setUser($admin_user);
                 $product->setCategory($cat);
+                // set the other fields
                 $product->setPrice(mt_rand(9.99, 99.99));
                 $product->setQuantity(mt_rand(3, 15));
                 $product->setDescription("Lorem ipsum vetgt ulu vetsic Lorem ipsum vetgt ulu vetsic");
@@ -48,6 +53,8 @@ class AppFixtures extends Fixture
                 $this->addPhotos($manager, $product);
                 $this->addSpecifications($manager, $product);
                 $manager->persist($product);
+                // add the product to the brand
+
             }
         }
         $manager->flush();
@@ -64,6 +71,17 @@ class AppFixtures extends Fixture
             $photo->setUrl($path);
             $p->addPhoto($photo);
             $om->persist($photo);
+        }
+    }
+    // for each product add a random brand
+    public function createBrands(ObjectManager $om)
+    {
+        $brands = ["Asus", "Dell", "HP", "Canon", "Brother", "Samsung","Microsoft","Google","Epson","Lenovo"];
+        for ($i=0; $i <count($brands) ; $i++) {
+            $brand = new Brand();
+            $brand->setName($brands[$i]);
+            $brand->setDescription("brand description...".$i);
+            $om->persist($brand);
         }
     }
     // for each product add A specification
