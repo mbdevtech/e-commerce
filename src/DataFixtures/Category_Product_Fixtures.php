@@ -2,19 +2,19 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Brand;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-use App\Entity\Brand;
 use App\Entity\Product;
 use App\Entity\Category;
-use App\Entity\User;
+
 use App\Entity\Photo;
 use App\Entity\Specification;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class AppFixtures extends Fixture
+class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -23,14 +23,9 @@ class AppFixtures extends Fixture
             "Microsoft", "Lenovo", "Printers", "Canon", "Lexmark", "Brother", "Xerox", "HPLaserJet", "Accessories",
             "RAM", "Stockage", "Cards", "CAMs", "CPUs", "DVRs", "Screens", "Network", "Security"
         ];
-        // extract the admin user with id 4
-        $admin_user = new User();
-        $admin_user->setEmail("admin@myshop.com");
-        $admin_user->setPassword("admin");
-        $manager->persist($admin_user);
 
-        // create brands
-        $this->createBrands($manager);
+        $brands = $manager->getRepository(Brand::class)->findAll();
+        
         // for each category we create a few products
         for ($j = 0; $j < count($categories); $j++) {
             $cat = new Category();
@@ -43,13 +38,14 @@ class AppFixtures extends Fixture
                 $product = new Product();
                 $product->setName('product ' . $i . ' of ' . $cat->getName());
                 $product->setExcerpt('product ' . $i . ' of ' . $cat->getName());
-                $product->setUser($admin_user);
+                $product->setUser($this->getReference(User_Brand_Fixtures::USER_REFERENCE));
                 $product->setCategory($cat);
                 // set the other fields
                 $product->setPrice(mt_rand(9.99, 99.99));
                 $product->setQuantity(mt_rand(3, 15));
                 $product->setDescription("Lorem ipsum vetgt ulu vetsic Lorem ipsum vetgt ulu vetsic");
                 $product->setEditedAt(new \DateTime());
+                $product->setBrand($brands[mt_rand(0, count($brands)-1)]);
                 $this->addPhotos($manager, $product);
                 $this->addSpecifications($manager, $product);
                 $manager->persist($product);
@@ -73,17 +69,7 @@ class AppFixtures extends Fixture
             $om->persist($photo);
         }
     }
-    // for each product add a random brand
-    public function createBrands(ObjectManager $om)
-    {
-        $brands = ["Asus", "Dell", "HP", "Canon", "Brother", "Samsung","Microsoft","Google","Epson","Lenovo"];
-        for ($i=0; $i <count($brands) ; $i++) {
-            $brand = new Brand();
-            $brand->setName($brands[$i]);
-            $brand->setDescription("brand description...".$i);
-            $om->persist($brand);
-        }
-    }
+
     // for each product add A specification
     public function addSpecifications(ObjectManager $om, Product $p)
     {
@@ -94,4 +80,19 @@ class AppFixtures extends Fixture
         $specific->setValue(1);
         $om->persist($specific);
     }
+
+    // implnent getGroup
+    public static function getGroups(): array
+    {
+         return ['group2'];
+    }
+
+    // implements dependencies
+    public function getDependencies()
+    {
+        return array(
+            User_Brand_Fixtures::class,
+        );
+    }
+
 }
