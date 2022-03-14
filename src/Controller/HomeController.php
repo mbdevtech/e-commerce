@@ -6,6 +6,8 @@ use App\Entity\Category;
 use App\Entity\Brand;
 use App\Entity\Photo;
 use App\Entity\Specification;
+use App\Entity\Product;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +32,16 @@ class HomeController extends AbstractController
         ]);
     }
     /**
+     * @Route("/list", name="product_list")
+     */
+    public function list(): Response
+    {
+        return $this->render('home/list.html.twig', [
+            'product_list' => $this->getDoctrine()->getRepository(Product::class)->findAll(),
+            'prod_photos' => $this->getDoctrine()->getRepository(Photo::class)->findAll()
+        ]);
+    }
+    /**
      * @Route("/about", name="about")
      */
     public function about(): Response
@@ -45,10 +57,14 @@ class HomeController extends AbstractController
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+        $prod_photos = $this->getDoctrine()->getRepository(Photo::class)->findAll();
 
         return $this->render('home/shop.html.twig', [
             'categories' => $categories,
-            'brands' => $brands
+            'brands' => $brands,
+            'products' => $products,
+            'prod_photos'=> $prod_photos
         ]);
     }
     /**
@@ -70,6 +86,8 @@ class HomeController extends AbstractController
      */
     public function contact(): Response
     {
+        phpinfo();
+        exit;
         return $this->render('home/contact.html.twig', [
             'controller_name' => 'HomeController',
         ]);

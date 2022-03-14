@@ -34,7 +34,7 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
             $cat->setParentId(0); // all main categories
             $manager->persist($cat);
             // create products
-            for ($i = 0; $i < mt_rand(1, 6); $i++) {
+            for ($i = 0; $i < mt_rand(50, 60); $i++) {
                 $product = new Product();
                 $product->setName('product ' . $i . ' of ' . $cat->getName());
                 $product->setExcerpt('product ' . $i . ' of ' . $cat->getName());
