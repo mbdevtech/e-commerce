@@ -304,7 +304,10 @@
 </body></html></div><!-- Header Bottom Area End Here --><!-- Begin Mobile Menu Area --><div class="mobile-menu-area d-lg-none d-xl-none col-12"><div class="container">
 <div class="row">
 	<div class="mobile-menu"></div>
-</div></div></div><!-- Mobile Menu Area End Here -->{% endblock %}{% block main %}{% endblock %}{% block footer %}<!-- Begin Footer Area --><divclass="footer"><!-- Begin Footer Static Top Area --><div class="footer-static-top">
+</div></div></div><!-- Mobile Menu Area End Here -->{% endblock %}{% block main %}{% endblock %}
+{% block footer %}<!-- Begin Footer Area -->
+<divclass="footer"><!-- Begin Footer Static Top Area -->
+<div class="footer-static-top">
 <div
 	class="container">
 	<!-- Begin Footer Shipping Area -->
@@ -405,10 +408,10 @@
 				<div class="footer-block">
 					<h3 class="footer-block-title">Product</h3>
 					<ul>
-						<li><a href="#">Prices drop</a></li>
-						<li><a href="#">New products</a></li>
-						<li><a href="#">Best sales</a></li>
-						<li><a href="#">Contact us</a></li>
+						<li><a href="{{path('discount')}}">Prices drop</a></li>
+						<li><a href="{{path('new')}}">New products</a></li>
+						<li><a href="{{path('best')}}">Best sales</a></li>
+						<li><a href="{{path('contact')}}">Contact us</a></li>
 					</ul>
 				</div>
 			</div>
@@ -420,8 +423,8 @@
 					<ul>
 						<li><a href="#">Delivery</a></li>
 						<li><a href="#">Legal Notice</a></li>
-						<li><a href="#">About us</a></li>
-						<li><a href="#">Contact us</a></li>
+						<li><a href="about">About us</a></li>
+						<li><a href="contact">Contact us</a></li>
 					</ul>
 				</div>
 			</div>

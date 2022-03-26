@@ -67,11 +67,6 @@ class Product
     private $photos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Specification::class, mappedBy="ProductId", orphanRemoval=true)
-     */
-    private $specifications;
-
-    /**
      * @ORM\OneToMany(targetEntity=Tax::class, mappedBy="ProductId", orphanRemoval=true)
      */
     private $taxes;
@@ -87,10 +82,19 @@ class Product
      */
     private $brand;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Thumb;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $Specification;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
-        $this->specifications = new ArrayCollection();
         $this->taxes = new ArrayCollection();
         $this->shippings = new ArrayCollection();
     }
@@ -227,36 +231,6 @@ class Product
     }
 
     /**
-     * @return Collection|Specification[]
-     */
-    public function getSpecifications(): Collection
-    {
-        return $this->specifications;
-    }
-
-    public function addSpecification(Specification $specification): self
-    {
-        if (!$this->specifications->contains($specification)) {
-            $this->specifications[] = $specification;
-            $specification->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSpecification(Specification $specification): self
-    {
-        if ($this->specifications->removeElement($specification)) {
-            // set the owning side to null (unless already changed)
-            if ($specification->getProduct() === $this) {
-                $specification->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Tax[]
      */
     public function getTaxes(): Collection
@@ -324,6 +298,30 @@ class Product
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
+
+        return $this;
+    }
+
+    public function getThumb(): ?string
+    {
+        return $this->Thumb;
+    }
+
+    public function setThumb(string $Thumb): self
+    {
+        $this->Thumb = $Thumb;
+
+        return $this;
+    }
+
+    public function getSpecification(): ?string
+    {
+        return $this->Specification;
+    }
+
+    public function setSpecification(?string $Specification): self
+    {
+        $this->Specification = $Specification;
 
         return $this;
     }

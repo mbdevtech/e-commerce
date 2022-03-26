@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Brand;
 use App\Entity\Photo;
-use App\Entity\Specification;
 use App\Entity\Product;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,6 +67,12 @@ class HomeController extends AbstractController
     /**
      * @Route("/shop", name="shop")
      */
+
+    // To do:
+    // - Add thumbnail, specification fields to Product 
+    // - Remove specification Model 
+    // - Fix code related to theses changes
+
     public function products(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
