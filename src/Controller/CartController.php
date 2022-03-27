@@ -17,14 +17,14 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="shopping_cart")
      */
-    public function index(SessionInterface $session, PhotoRepository $photoRepository)
+    public function index(SessionInterface $session, ProductRepository $repository)
     {
         $cart = $session->get('cart', []);
         // Add products to the Cart
         $productsCart = [];
         foreach ($cart as $id => $quantity) {
             $productsCart[] = [
-                'product' => $photoRepository->findByProductId($id),
+                'product' => $repository->find($id),
                 //'product' => $productRepository->find($id),
                 'quantity' => $quantity,
             ];

@@ -23,10 +23,6 @@
 					class="col-lg-5 col-md-6">
 					<!-- Product Details Left -->
 					<div class="product-details-left">
-						category:
-							{{product.category.name}}
-						Product:
-							{{product.id}}
 						<div class="product-details-images slider-navigation-1">
 							<div class="lg-image">
 								<a class="popup-img venobox vbox-item" href="" data-gall="myGallery">
@@ -74,8 +70,8 @@
 				<div class="col-lg-7 col-md-6">
 					<div class="product-details-view-content pt-60">
 						<div class="product-info">
-							<h2>Today is a good day Framed poster</h2>
-							<span class="product-details-ref">Reference: demo_15</span>
+							<h2>{{product.name}}</h2>
+							<span class="product-details-ref">Reference: {{product.id}}</span>
 							<div class="rating-box pt-20">
 								<ul class="rating rating-with-review-item">
 									<li>
@@ -102,16 +98,15 @@
 								</ul>
 							</div>
 							<div class="price-box pt-20">
-								<span class="new-price new-price-2">${{single[0].product.price}}</span>
+								<span class="new-price new-price-2">${{product.price}}</span>
 							</div>
 							<div class="product-desc">
 								<p>
-									<span>100% cotton double printed dress. Black and white striped top and orange high waisted skater skirt bottom. Lorem ipsum dolor sit amet, consectetur adipisicing elit. quibusdam corporis, earum facilis et nostrum dolorum accusamus similique eveniet quia pariatur.
-									</span>
+									<span>{{product.description}}</span>
 								</p>
 							</div>
 							<div class="single-add-to-cart">
-								<form action="{{path('cart_add',{'id': single[0].product.id} )}}" class="cart-quantity">
+								<form action="{{path('cart_add',{'id': product.id} )}}" class="cart-quantity">
 									<div class="quantity">
 										<label>Quantity</label>
 										<div class="cart-plus-minus">

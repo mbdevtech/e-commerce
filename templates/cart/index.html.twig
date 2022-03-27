@@ -31,21 +31,20 @@
 											<tr>
 												<td class="li-product-remove">
 													<a
-														href="">
-														{# <a href="{{path('cart_remove',{'id':item.product[0].product.id})}}"> #}
+														href="{{path('cart_remove',{'id':item.product.id})}}">
 														<large>
 															<i class="fa fa-trash"></i>
 														</large>
 													</a>
 												</td>
 												<td class="li-product-thumbnail">
-													<a href="#"><img src="{{asset(item.product[0].url)}}" alt="product image" style="width:25%;"></a>
+													<a href="#"><img src="{{asset(item.product.thumb)}}" alt="product image" style="width:25%;"></a>
 												</td>
 												<td class="li-product-name">
-													<a href="#">{{item.product[0].product.name}}</a>
+													<a href="#">{{item.product.name}}</a>
 												</td>
 												<td class="li-product-price">
-													<span class="amount">${{item.product[0].product.price}}</span>
+													<span class="amount">${{item.product.price}}</span>
 												</td>
 												<td class="quantity">
 													<label>Quantity</label>
