@@ -23,11 +23,16 @@
 					class="col-lg-5 col-md-6">
 					<!-- Product Details Left -->
 					<div class="product-details-left">
+						category:
+							{{product.category.name}}
+						Product:
+							{{product.id}}
 						<div class="product-details-images slider-navigation-1">
-							category:
-							{{single[0].product.category.name}}
-							Product:
-							{{single[0].product.id}}
+							<div class="lg-image">
+								<a class="popup-img venobox vbox-item" href="" data-gall="myGallery">
+									<img src="{{asset(product.thumb)}}" alt="product image">
+								</a>
+							</div>
 							<div class="lg-image">
 								<a class="popup-img venobox vbox-item" href="" data-gall="myGallery">
 									<img src="{{asset(single[0].url)}}" alt="product image">
@@ -55,6 +60,7 @@
 							</div>
 						</div>
 						<div class="product-details-thumbs slider-thumbs-1">
+							<div class="sm-image"><img src="{{asset(product.thumb)}}" alt="product image thumb"></div>
 							<div class="sm-image"><img src="{{asset(single[0].url)}}" alt="product image thumb"></div>
 							<div class="sm-image"><img src="{{asset(single[1].url)}}" alt="product image thumb"></div>
 							<div class="sm-image"><img src="{{asset(single[2].url)}}" alt="product image thumb"></div>

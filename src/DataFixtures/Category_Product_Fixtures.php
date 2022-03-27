@@ -11,7 +11,6 @@ use App\Entity\Product;
 use App\Entity\Category;
 
 use App\Entity\Photo;
-use App\Entity\Specification;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
@@ -25,6 +24,8 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
         ];
 
         $brands = $manager->getRepository(Brand::class)->findAll();
+
+        $specifications = ["New Arrival","Best Seller", "Hot Deal", "Featured", "Discount", "Top Deal"];
         
         // for each category we create a few products
         for ($j = 0; $j < count($categories); $j++) {
@@ -32,6 +33,7 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
             $cat->setName($categories[$j]);
             $cat->setExcerpt($categories[$j] . ' description... ');
             $cat->setParentId(0); // all main categories
+            $cat->setIcon("");
             $manager->persist($cat);
             // create products
             for ($i = 0; $i < mt_rand(50, 60); $i++) {
@@ -46,8 +48,15 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
                 $product->setDescription("Lorem ipsum vetgt ulu vetsic Lorem ipsum vetgt ulu vetsic");
                 $product->setEditedAt(new \DateTime());
                 $product->setBrand($brands[mt_rand(0, count($brands)-1)]);
+                // give a random thumb photo
+                $path = 'layout/images/product/large-size/' . mt_rand(1, 13) . '.jpg';
+                $product->setThumb($path);
+                // give a random specification
+                $product->setSpecification($specifications[mt_rand(0, count($specifications) - 1)]);
+                // sets a random brand
+                $product->setBrand($brands[mt_rand(0, count($brands) - 1)]);
+                // add 5 photos to each product
                 $this->addPhotos($manager, $product);
-                $this->addSpecifications($manager, $product);
                 $manager->persist($product);
                 // add the product to the brand
 
@@ -68,17 +77,6 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
             $p->addPhoto($photo);
             $om->persist($photo);
         }
-    }
-
-    // for each product add A specification
-    public function addSpecifications(ObjectManager $om, Product $p)
-    {
-        $specifications = ["New Arrival", "Best Seller", "Hot Deal", "Featured", "Top Deal", "Discount"];
-        $specific = new Specification();
-        $specific->setProduct($p);
-        $specific->setName($specifications[mt_rand(0, 5)]);
-        $specific->setValue(1);
-        $om->persist($specific);
     }
 
     // implnent getGroup

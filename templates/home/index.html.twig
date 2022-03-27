@@ -121,14 +121,8 @@
 									<!-- single-product-wrap start -->
 									<div class="single-product-wrap">
 										<div class="product-image">
-											<a href="{{path('single_product',{'id': p.product.id})}}">
-												{% set index = 0 %}
-												{% for f in prod_photos  %}
-													{% if f.product == p.product and index ==0 %}
-														<img src="{{f.url}}" alt="Li's Product Image">
-														{% set index =1 %}
-													{% endif %}
-												{% endfor %}
+											<a href="{{path('single_product',{'id': p.id})}}">
+												<img src="{{p.thumb}}" alt="Li's Product Image">
 											</a>
 											<span class="sticker">New</span>
 										</div>
@@ -159,16 +153,16 @@
 													</div>
 												</div>
 												<h4>
-													<a class="product_name" href="single-product.html">{{p.product.name}}</a>
+													<a class="product_name" href="single-product.html">{{p.name}}</a>
 												</h4>
 												<div class="price-box">
-													<span class="new-price">${{p.product.price}}</span>
+													<span class="new-price">${{p.price}}</span>
 												</div>
 											</div>
 											<div class="add-actions">
 												<ul class="add-actions-link">
 													<li class="add-cart active">
-														<a href="{{path('cart_add',{'id': p.product.id} )}}">Add to cart</a>
+														<a href="{{path('cart_add',{'id': p.id} )}}">Add to cart</a>
 													</li>
 													<li>
 														<a class="links-details" href="wishlist.html">
@@ -199,14 +193,8 @@
 									<!-- single-product-wrap start -->
 									<div class="single-product-wrap">
 										<div class="product-image">
-											<a href="{{path('single_product',{'id': p.product.id})}}">
-												{% set index = 0 %}
-												{% for f in prod_photos  %}
-													{% if f.product == p.product and index ==0 %}
-														<img src="{{f.url}}" alt="Li's Product Image">
-														{% set index =1 %}
-													{% endif %}
-												{% endfor %}
+											<a href="{{path('single_product',{'id': p.id})}}">
+												<img src="{{p.thumb}}" alt="Li's Product Image">
 											</a>
 											<span class="sticker">Best</span>
 										</div>
@@ -237,16 +225,16 @@
 													</div>
 												</div>
 												<h4>
-													<a class="product_name" href="{{path('single_product',{'id': p.product.id})}}">{{p.product.name}}</a>
+													<a class="product_name" href="{{path('single_product',{'id': p.id})}}">{{p.name}}</a>
 												</h4>
 												<div class="price-box">
-													<span class="new-price">${{p.product.price}}</span>
+													<span class="new-price">${{p.price}}</span>
 												</div>
 											</div>
 											<div class="add-actions">
 												<ul class="add-actions-link">
 													<li class="add-cart active">
-														<a href="{{path('cart_add',{'id': p.product.id} )}}">Add to cart</a>
+														<a href="{{path('cart_add',{'id': p.id} )}}">Add to cart</a>
 													</li>
 													<li>
 														<a class="links-details" href="wishlist.html">
@@ -277,14 +265,8 @@
 									<!-- single-product-wrap start -->
 									<div class="single-product-wrap">
 										<div class="product-image">
-											<a href="{{path('single_product',{'id': p.product.id})}}">
-												{% set index = 0 %}
-												{% for f in prod_photos  %}
-													{% if f.product == p.product and index ==0 %}
-														<img src="{{f.url}}" alt="Li's Product Image">
-														{% set index =1 %}
-													{% endif %}
-												{% endfor %}
+											<a href="{{path('single_product',{'id': p.id})}}">
+												<img src="{{p.thumb}}" alt="Li's Product Image">
 											</a>
 											<span class="sticker">Hot</span>
 										</div>
@@ -315,16 +297,16 @@
 													</div>
 												</div>
 												<h4>
-													<a class="product_name" href="{{path('single_product',{'id': p.product.id})}}">{{p.product.name}}</a>
+													<a class="product_name" href="{{path('single_product',{'id': p.id})}}">{{p.name}}</a>
 												</h4>
 												<div class="price-box">
-													<span class="new-price">${{p.product.price}}</span>
+													<span class="new-price">${{p.price}}</span>
 												</div>
 											</div>
 											<div class="add-actions">
 												<ul class="add-actions-link">
 													<li class="add-cart active">
-														<a href="{{path('cart_add',{'id': p.product.id} )}}">Add to cart</a>
+														<a href="{{path('cart_add',{'id': p.id} )}}">Add to cart</a>
 													</li>
 													<li>
 														<a class="links-details" href="wishlist.html">
@@ -387,14 +369,8 @@
 									<!-- single-product-wrap start -->
 									<div class="single-product-wrap">
 										<div class="product-image">
-											<a href="{{path('single_product',{'id': p.product.id})}}">
-												{% set index = 0 %}
-												{% for f in prod_photos  %}
-													{% if f.product == p.product and index ==0 %}
-														<img src="{{f.url}}" alt="Li's Product Image">
-														{% set index =1 %}
-													{% endif %}
-												{% endfor %}
+											<a href="{{path('single_product',{'id': p.id})}}">
+												<img src="{{p.thumb}}" alt="Li's Product Image">
 											</a>
 											<span class="sticker">Feat</span>
 										</div>
@@ -425,16 +401,16 @@
 													</div>
 												</div>
 												<h4>
-													<a class="product_name" href="{{path('single_product',{'id':p.product.id})}}">{{p.product.name}}</a>
+													<a class="product_name" href="{{path('single_product',{'id':p.id})}}">{{p.name}}</a>
 												</h4>
 												<div class="price-box">
-													<span class="new-price">${{p.product.price}}</span>
+													<span class="new-price">${{p.price}}</span>
 												</div>
 											</div>
 											<div class="add-actions">
 												<ul class="add-actions-link">
 													<li class="add-cart active">
-														<a href="{{path('cart_add',{'id': p.product.id} )}}">Add to cart</a>
+														<a href="{{path('cart_add',{'id': p.id} )}}">Add to cart</a>
 													</li>
 													<li>
 														<a class="links-details" href="wishlist.html">
@@ -465,14 +441,8 @@
 									<!-- single-product-wrap start -->
 									<div class="single-product-wrap">
 										<div class="product-image">
-											<a href="{{path('single_product',{'id': p.product.id})}}">
-												{% set index = 0 %}
-												{% for f in prod_photos  %}
-													{% if f.product == p.product and index ==0 %}
-														<img src="{{f.url}}" alt="Li's Product Image">
-														{% set index =1 %}
-													{% endif %}
-												{% endfor %}
+											<a href="{{path('single_product',{'id': p.id})}}">
+												<img src="{{p.thumb}}" alt="Li's Product Image">
 											</a>
 											<span class="sticker">Top</span>
 										</div>
@@ -503,16 +473,16 @@
 													</div>
 												</div>
 												<h4>
-													<a class="product_name" href="{{path('single_product',{'id': p.product.id})}}">{{p.product.name}}</a>
+													<a class="product_name" href="{{path('single_product',{'id': p.id})}}">{{p.name}}</a>
 												</h4>
 												<div class="price-box">
-													<span class="new-price">${{p.product.price}}</span>
+													<span class="new-price">${{p.price}}</span>
 												</div>
 											</div>
 											<div class="add-actions">
 												<ul class="add-actions-link">
 													<li class="add-cart active">
-														<a href="{{path('cart_add',{'id': p.product.id} )}}">Add to cart</a>
+														<a href="{{path('cart_add',{'id': p.id} )}}">Add to cart</a>
 													</li>
 													<li>
 														<a class="links-details" href="wishlist.html">
@@ -543,14 +513,8 @@
 									<!-- single-product-wrap start -->
 									<div class="single-product-wrap">
 										<div class="product-image">
-											<a href="{{path('single_product',{'id':p.product.id})}}">
-												{% set index = 0 %}
-												{% for f in prod_photos  %}
-													{% if f.product == p.product and index ==0 %}
-														<img src="{{f.url}}" alt="Li's Product Image">
-														{% set index =1 %}
-													{% endif %}
-												{% endfor %}
+											<a href="{{path('single_product',{'id': p.id})}}">
+												<img src="{{p.thumb}}" alt="Li's Product Image">
 											</a>
 											<span class="sticker">Disc</span>
 										</div>
@@ -581,16 +545,16 @@
 													</div>
 												</div>
 												<h4>
-													<a class="product_name" href="{{path('single_product',{'id':p.product.id})}}">{{p.product.name}}</a>
+													<a class="product_name" href="{{path('single_product',{'id':p.id})}}">{{p.name}}</a>
 												</h4>
 												<div class="price-box">
-													<span class="new-price">${{p.product.price}}</span>
+													<span class="new-price">${{p.price}}</span>
 												</div>
 											</div>
 											<div class="add-actions">
 												<ul class="add-actions-link">
 													<li class="add-cart active">
-														<a href="{{path('cart_add',{'id': p.product.id} )}}">Add to cart</a>
+														<a href="{{path('cart_add',{'id': p.id} )}}">Add to cart</a>
 													</li>
 													<li>
 														<a class="links-details" href="wishlist.html">

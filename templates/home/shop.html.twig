@@ -74,17 +74,14 @@
 									</div>
 									<div class="row">
 										{# display real products start #}
-										{% set product_name = '' %}
 										{% for f in pagination %}
-										{% if (product_name != f.product.name) %}
-										{% set product_name = f.product.name %}	
 										<div
 											class="col-lg-4 col-md-4 col-sm-6 mt-40">
 											<!-- single-product-wrap start -->
 											<div class="single-product-wrap">
 												<div class="product-image">
-													<a href="{{path('single_product',{'id': f.product.id})}}">
-														<img src="{{f.url}} " alt="{{f.product.name}}">												    
+													<a href="{{path('single_product',{'id': f.id})}}">
+														<img src="{{f.thumb}} " alt="{{f.name}}">												    
 													</a>
 													<span class="sticker">New</span>
 												</div>
@@ -115,10 +112,10 @@
 															</div>
 														</div>
 														<h4>
-															<a class="product_name" href="{{path('single_product',{'id': f.product.id})}}">{{f.product.name}}</a>
+															<a class="product_name" href="{{path('single_product',{'id': f.id})}}">{{f.name}}</a>
 														</h4>
 														<div class="price-box">
-															<span class="new-price">${{f.product.price}}</span>
+															<span class="new-price">${{f.price}}</span>
 														</div>
 													</div>
 													<div class="add-actions">
@@ -142,7 +139,6 @@
 											</div>
 											<!-- single-product-wrap end -->
 										</div>
-										{% endif %}
 										{% endfor %}
 										{# display real products end #}
 									</div>
