@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Brand;
 use App\Entity\Photo;
 use App\Entity\Product;
+use Doctrine\ORM\Mapping\Id;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,7 +83,7 @@ class HomeController extends AbstractController
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            15 /*limit per page*/
+            12 /*limit per page*/
         );
 
         return $this->render('home/shop.html.twig', [
@@ -168,12 +169,19 @@ class HomeController extends AbstractController
     public function single_product(int $id): Response
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
-        $single = $this->getDoctrine()->getRepository(Photo::class)->findBy(['Product' => $id]);
-        if ($single)
+        // Consider only 15 products of the same category
+        $same    = $this->getDoctrine()->getRepository(Product::class)->findBy(['Category' => $product->getCategory()]);
+        $nbitems = count($same);
+        $same = ($nbitems < 15 ? $same : array_slice($same, $nbitems - 15, $nbitems - 1));
+        // extract all the product photos
+        $single  = $this->getDoctrine()->getRepository(Photo::class)->findBy(['Product' => $id]);
+
+        if ($product)
         {
             return $this->render('home/single_product.html.twig', [
                 'single' => $single,
-                'product'=> $product
+                'product'=> $product,
+                'same' => $same
             ]);
         }
         else return $this->render('home/error.html.twig');

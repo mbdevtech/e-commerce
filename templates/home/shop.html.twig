@@ -42,8 +42,11 @@
 								</ul>
 								<!-- shop-item-filter-list end -->
 							</div>
+							{# calculate navigation variables #}
+							{% set first = ((pagination.getPage - 1) * 12) + 1 %}
+							{% set last = ((pagination.getPage - 1 ) * 12) + 12 %}
 							<div class="toolbar-amount">
-								<span>Showing 1 to 9 of 15</span>
+								<span>Showing {{first}} to {{last}} of {{ pagination.getTotalItemCount }} </span>
 							</div>
 						</div>
 						<!-- product-select-box start -->
@@ -69,9 +72,6 @@
 						<div class="tab-content">
 							<div id="grid-view" class="tab-pane fade active show" role="tabpanel">
 								<div class="product-area shop-product-area">
-									<div class="count">
-										{{ pagination.getTotalItemCount }}
-									</div>
 									<div class="row">
 										{# display real products start #}
 										{% for f in pagination %}
@@ -921,43 +921,28 @@
 							<div class="paginatoin-area">
 								<div class="row">
 									{# display navigation #}
-									<div class="navigation">
-										{{ knp_pagination_render(pagination) }}
-										{{ knp_pagination_render(pagination, null, {}, {
-										'align': 'center',
-										'size': 'large',
-										'rounded': true,
-										}) }}
-									</div>
 									<div class="col-lg-6 col-md-6 pt-xs-15">
-										<p>Showing 1-12 of 13 item(s)</p>
+										<p>Showing {{first}} to {{last}} of {{ pagination.getTotalItemCount }} items</p>
 									</div>
 									<div class="col-lg-6 col-md-6">
-										{{ knp_pagination_render(pagination) }}
 										<ul class="pagination-box pt-xs-20 pb-xs-15">
+											<li class="First">
+												<a href="{{path('shop')}}?page=1">
+												First</a>
+											</li>
 											<li>
-												<a href="#" class="Previous">
+												<a href="{{path('shop')}}?page=2" class="Previous">
 													<i class="fa fa-chevron-left"></i>
-													Previous</a>
-											</li>
-											<li class="active">
-												<a href="#">
-												<i class="fa-solid fa-angles-left"></i>First</a>
+													</a>
 											</li>
 											<li>
-												<a href="#">Previous</a>
-											</li>
-											<li>
-												<a href="#">Next</a>
-											</li>
-											<li>
-												<a href="#">Last</a>
-											</li>
-											<li>
-												<a href="#" class="Next">
-													Next
+												<a href="{{path('shop')}} + '?page=1'" class="Next">
 													<i class="fa fa-chevron-right"></i>
 												</a>
+											</li>	
+												{% set lastpage = (pagination.getTotalItemCount % 12 == 0 ? pagination.getTotalItemCount / 12 : (pagination.getTotalItemCount / 12) + 1) %}																			<li>
+												{% set lastpage = lastpage %}
+												<a href="{{path('shop')}}?page={{lastpage}}">Last</a>
 											</li>
 										</ul>
 									</div>
