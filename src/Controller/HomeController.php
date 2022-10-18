@@ -191,8 +191,6 @@ class HomeController extends AbstractController
      */
     public function contact(): Response
     {
-        phpinfo();
-        exit;
         return $this->render('home/contact.html.twig', [
             'controller_name' => 'HomeController',
         ]);

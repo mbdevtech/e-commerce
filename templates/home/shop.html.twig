@@ -43,27 +43,32 @@
 								<!-- shop-item-filter-list end -->
 							</div>
 							{# calculate navigation variables #}
-							{% set first = ((pagination.getPage - 1) * 12) + 1 %}
-							{% set last = ((pagination.getPage - 1 ) * 12) + 12 %}
+							{% set nbPages = (pagination.getTotalItemCount / 12) + 1 %}
+							{% if pagination.getPage %}	
+							{% set first, last = ((pagination.getPage - 1) * 12) + 1, ((pagination.getPage - 1 ) * 12) + 12 %}
+							{% else %}
+							{% set first, last = 1, 12 %}
+							{% endif %}
+							{% if last > pagination.getTotalItemCount %}
+							{% set last = pagination.getTotalItemCount %}
+							{% endif %}
 							<div class="toolbar-amount">
 								<span>Showing {{first}} to {{last}} of {{ pagination.getTotalItemCount }} </span>
 							</div>
 						</div>
 						<!-- product-select-box start -->
-						<div class="product-select-box">
+						{# <div class="product-select-box">
 							<div class="product-short">
 								<p>Sort By:</p>
-								<select class="nice-select">
-									<option value="trending">Relevance</option>
+								<select class="nice-select" id = "sorting" onchange="sortBy()">
+									<option value="trending">Most Recent</option>
 									<option value="sales">Name (A - Z)</option>
 									<option value="sales">Name (Z - A)</option>
-									<option value="rating">Price (Low &gt; High)</option>
-									<option value="date">Rating (Lowest)</option>
-									<option value="price-asc">Model (A - Z)</option>
-									<option value="price-asc">Model (Z - A)</option>
+									<option value="rating">Price (Low - High)</option>
+									<option value="date">Rating (Highest)</option>
 								</select>
 							</div>
-						</div>
+						</div> #}
 						<!-- product-select-box end -->
 					</div>
 					<!-- shop-top-bar end -->
@@ -927,22 +932,38 @@
 									<div class="col-lg-6 col-md-6">
 										<ul class="pagination-box pt-xs-20 pb-xs-15">
 											<li class="First">
-												<a href="{{path('shop')}}?page=1">
+												{% set firstpage = 1 %}																			<li>
+												  <a href="{{ path('shop', { 'page': firstpage }) }}">
 												First</a>
 											</li>
+											{% set previous_page = pagination.getPage -1  %}
 											<li>
-												<a href="{{path('shop')}}?page=2" class="Previous">
+											{% if previous_page > 0 %}
+												<a href="{{ path('shop', { 'page': previous_page }) }}" class="Previous">
+													<i class="fa fa-chevron-left"></i>
+													</a>	
+											{% else %}
+											<a href="{{ path('shop', { 'page': 1 }) }}" class="inactive">
 													<i class="fa fa-chevron-left"></i>
 													</a>
+											{% endif %}
 											</li>
+											{% set next_page = pagination.getPage + 1  %}
+											{% set lastpage = (pagination.getTotalItemCount % 12 == 0 ? pagination.getTotalItemCount / 12 : (pagination.getTotalItemCount / 12) + 1) %}																			<li>
+											{% set lastpage = lastpage | number_format(0) %}
 											<li>
-												<a href="{{path('shop')}} + '?page=1'" class="Next">
+											{% if next_page > nbPages %}
+												<a href="{{ path('shop', { 'page': lastpage }) }}" class="Next">
 													<i class="fa fa-chevron-right"></i>
 												</a>
+											{% else %}
+													<a href="{{ path('shop', { 'page': next_page }) }}" class="Next">
+													<i class="fa fa-chevron-right"></i>
+												</a>
+											{% endif %}
 											</li>	
-												{% set lastpage = (pagination.getTotalItemCount % 12 == 0 ? pagination.getTotalItemCount / 12 : (pagination.getTotalItemCount / 12) + 1) %}																			<li>
-												{% set lastpage = lastpage %}
-												<a href="{{path('shop')}}?page={{lastpage}}">Last</a>
+											<li>
+												<a href="{{ path('shop', { 'page': lastpage }) }}">Last</a>
 											</li>
 										</ul>
 									</div>
@@ -1032,7 +1053,7 @@
 						</div>
 						<div class="category-tags">
 						<!-- btn-search clear-all start -->
-						<button class="btn-primary mb-sm-30 mb-xs-30" type="submit">Search</button>
+						<button class="btn-primary mb-sm-30 mb-xs-30" type="submit" onclick="applyFilter()">Search</button>
 						<button class="btn-danger mb-sm-30 mb-xs-30" onclick="clearAll()">Clear all</button>
 						<!-- btn-search clear-all end -->
 						</div>
@@ -1107,6 +1128,16 @@
 	}
 	function applyFilter() {
 		alert("hahahahahahah");
+		//varJS = '{{ path('shop',{'id':882}) }}';
+		varJS = 'localhost';
+   		//url = url.replace('home', varJS);
+		window.location.replace(varJS);
+		//window.location.replace(url);
+	}
+	function sortBy() {
+		// apply a sort criteria
+		let sorting = document.getElementById('sorting').value;
+		alert(sorting);
 		varJS = '{{ path('shop',{'id':882}) }}';
    		//url = url.replace('home', varJS);
 		window.location.replace(varJS);
