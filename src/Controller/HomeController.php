@@ -66,15 +66,10 @@ class HomeController extends AbstractController
         ]);
     }
 
-    // To do:
-    // - Add thumbnail, specification fields to Product 
-    // - Remove specification Model 
-    // - Fix code related to theses changes
-
     /**
-     * @Route("/shop", name="shop")
+     * @Route("/shop-grid", name="shop-grid")
      */
-    public function products(PaginatorInterface $paginator, Request $request): Response
+    public function products_grid(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
@@ -86,7 +81,32 @@ class HomeController extends AbstractController
             12 /*limit per page*/
         );
 
-        return $this->render('home/shop.html.twig', [
+        return $this->render('home/shop-grid.html.twig', [
+                'categories' => $categories,
+                'brands' => $brands,
+                'products' => $products,
+                'pagination'=> $pagination,
+            ]);
+        
+
+    }
+
+    /**
+     * @Route("/shop-list", name="shop-list")
+     */
+    public function products_list(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+
+        $pagination = $paginator->paginate(
+            $products, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            5 /*limit per page*/
+        );
+
+        return $this->render('home/shop-list.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $products,
