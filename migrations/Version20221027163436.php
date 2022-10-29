@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220326122335 extends AbstractMigration
+final class Version20221027163436 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -59,23 +59,23 @@ final class Version20220326122335 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04AD44F5D008');
-        $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04AD12469DE2');
-        $this->addSql('ALTER TABLE ordered_product DROP FOREIGN KEY FK_E6F097B68D9F6D38');
-        $this->addSql('ALTER TABLE payment DROP FOREIGN KEY FK_6D28840D8D9F6D38');
-        $this->addSql('ALTER TABLE shipment DROP FOREIGN KEY FK_2CB20DC8D9F6D38');
-        $this->addSql('ALTER TABLE discount DROP FOREIGN KEY FK_E1E0B40E4584665A');
-        $this->addSql('ALTER TABLE ordered_product DROP FOREIGN KEY FK_E6F097B64584665A');
-        $this->addSql('ALTER TABLE photo DROP FOREIGN KEY FK_14B784184584665A');
-        $this->addSql('ALTER TABLE shipping DROP FOREIGN KEY FK_2D1C17244584665A');
-        $this->addSql('ALTER TABLE tax DROP FOREIGN KEY FK_8E81BA764584665A');
-        $this->addSql('ALTER TABLE user_role DROP FOREIGN KEY FK_2DE8C6A3D60322AC');
         $this->addSql('ALTER TABLE billing_address DROP FOREIGN KEY FK_6660E456A76ED395');
+        $this->addSql('ALTER TABLE discount DROP FOREIGN KEY FK_E1E0B40E4584665A');
         $this->addSql('ALTER TABLE fund DROP FOREIGN KEY FK_DC923E10A76ED395');
         $this->addSql('ALTER TABLE `order` DROP FOREIGN KEY FK_F5299398A76ED395');
+        $this->addSql('ALTER TABLE ordered_product DROP FOREIGN KEY FK_E6F097B68D9F6D38');
+        $this->addSql('ALTER TABLE ordered_product DROP FOREIGN KEY FK_E6F097B64584665A');
+        $this->addSql('ALTER TABLE payment DROP FOREIGN KEY FK_6D28840D8D9F6D38');
+        $this->addSql('ALTER TABLE photo DROP FOREIGN KEY FK_14B784184584665A');
+        $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04AD12469DE2');
         $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04ADA76ED395');
+        $this->addSql('ALTER TABLE product DROP FOREIGN KEY FK_D34A04AD44F5D008');
         $this->addSql('ALTER TABLE profile DROP FOREIGN KEY FK_8157AA0FA76ED395');
+        $this->addSql('ALTER TABLE shipment DROP FOREIGN KEY FK_2CB20DC8D9F6D38');
+        $this->addSql('ALTER TABLE shipping DROP FOREIGN KEY FK_2D1C17244584665A');
+        $this->addSql('ALTER TABLE tax DROP FOREIGN KEY FK_8E81BA764584665A');
         $this->addSql('ALTER TABLE user_role DROP FOREIGN KEY FK_2DE8C6A3A76ED395');
+        $this->addSql('ALTER TABLE user_role DROP FOREIGN KEY FK_2DE8C6A3D60322AC');
         $this->addSql('DROP TABLE billing_address');
         $this->addSql('DROP TABLE brand');
         $this->addSql('DROP TABLE category');
