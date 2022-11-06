@@ -43,11 +43,11 @@
 								<!-- shop-item-filter-list end -->
 							</div>
 							{# calculate navigation variables #}
-							{% set nbPages = (pagination.getTotalItemCount / 5) + 1 %}
+							{% set nbPages = (pagination.getTotalItemCount / 12) + 1 %}
 							{% if pagination.getPage %}	
-							{% set first, last = ((pagination.getPage - 1) * 5) + 1, ((pagination.getPage - 1 ) * 5) + 5 %}
+							{% set first, last = ((pagination.getPage - 1) * 12) + 1, ((pagination.getPage - 1 ) * 12) + 12 %}
 							{% else %}
-							{% set first, last = 1, 5 %}
+							{% set first, last = 1, 12 %}
 							{% endif %}
 							{% if last > pagination.getTotalItemCount %}
 							{% set last = pagination.getTotalItemCount %}
@@ -56,31 +56,26 @@
 								<span>Showing {{first}} to {{last}} of {{ pagination.getTotalItemCount }} </span>
 							</div>
 						</div>
-						<!-- product-select-box end -->
 					</div>
 					<!-- shop-top-bar end -->
 					<!-- shop-products-wrapper start -->
 					<div class="shop-products-wrapper">
 						<div class="tab-content">
-							<div id="list-view" class="tab-pane fade product-list-view active show" role="tabpanel">
+							<div id="grid-view" class="tab-pane fade active show" role="tabpanel">
 								<div class="product-area shop-product-area">
 									<div class="row">
 										{# display real products start #}
 										{% for f in pagination %}
 										<div
-											<div class="col-lg-12 col-md-12 col-sm-12 mt-40">
+											class="col-lg-4 col-md-4 col-sm-6 mt-40">
 											<!-- single-product-wrap start -->
 											<div class="single-product-wrap">
-											<div class="row mt-20">
-											<div class="col-lg-4 col-md-4 col-sm-6">
 												<div class="product-image">
 													<a href="{{path('single_product',{'id': f.id})}}">
 														<img src="{{f.thumb}} " alt="{{f.name}}">												    
 													</a>
 													<span class="sticker">New</span>
 												</div>
-											</div>
-											<div class="col-lg-8 col-md-8 col-sm-6">
 												<div class="product_desc">
 													<div class="product_desc_info">
 														<div class="product-review">
@@ -134,11 +129,8 @@
 													</div>
 												</div>
 											</div>
-											</div>
-											</div>
-											</div>
 											<!-- single-product-wrap end -->
-									
+										</div>
 										{% endfor %}
 										{# display real products end #}
 									</div>
@@ -154,38 +146,37 @@
 										<ul class="pagination-box pt-xs-20 pb-xs-15">
 											<li class="First">
 												{% set firstpage = 1 %}																			<li>
-												  <a href="{{ path('shop-list', { 'page': firstpage }) }}">
+												  <a href="{{ path('shop-grid', { 'page': firstpage }) }}">
 												First</a>
 											</li>
 											{% set previous_page = pagination.getPage -1  %}
 											<li>
 											{% if previous_page > 0 %}
-												<a href="{{ path('shop-list', { 'page': previous_page }) }}" class="Previous">
+												<a href="{{ path('shop-grid', { 'page': previous_page }) }}" class="Previous">
 													<i class="fa fa-chevron-left"></i>
 													</a>	
 											{% else %}
-											<a href="{{ path('shop-list', { 'page': 1 }) }}" class="inactive">
+											<a href="{{ path('shop-grid', { 'page': 1 }) }}" class="inactive">
 													<i class="fa fa-chevron-left"></i>
 													</a>
 											{% endif %}
 											</li>
 											{% set next_page = pagination.getPage + 1  %}
-											{% set lastpage = (pagination.getTotalItemCount % 5 == 0 ? (pagination.getTotalItemCount / 5) - 1 : (pagination.getTotalItemCount / 5) ) %}																			<li>
+											{% set lastpage = (pagination.getTotalItemCount % 12 == 0 ? (pagination.getTotalItemCount / 12) - 1 : (pagination.getTotalItemCount / 12)) %}																			<li>
 											{% set lastpage = lastpage | number_format(0) %}
 											<li>
-
 											{% if next_page > nbPages %}
-												<a href="{{ path('shop-list', { 'page': lastpage }) }}" class="Next">
+												<a href="{{ path('shop-grid', { 'page': lastpage }) }}" class="Next">
 													<i class="fa fa-chevron-right"></i>
 												</a>
 											{% else %}
-													<a href="{{ path('shop-list', { 'page': next_page }) }}" class="Next">
+													<a href="{{ path('shop-grid', { 'page': next_page }) }}" class="Next">
 													<i class="fa fa-chevron-right"></i>
 												</a>
 											{% endif %}
 											</li>	
 											<li>
-												<a href="{{ path('shop-list', { 'page': lastpage }) }}">Last</a>
+												<a href="{{ path('shop-grid', { 'page': lastpage }) }}">Last</a>
 											</li>
 										</ul>
 									</div>
@@ -195,15 +186,15 @@
 					</div>
 					<!-- shop-products-wrapper end -->
 				</div>
-				<div class="col-lg-3 order-1 order-lg-1">
-
+				<div class="col-lg-3 order-1 order-lg-1">			
 					<!--sidebar-categores-box start  -->
 					<div class="sidebar-categores-box">
+					<form action="" method="POST">
 						<div class="sidebar-title">
 							<h2>Filter By</h2>
 						</div>
 						{% set product_id = 881 %}
-						<form action="{{path('shop-list')}}" method="POST">
+						
 						<!-- filter-sub-area start -->
 						<div class="filter-sub-area">
 							<h5 class="filter-sub-titel">Categories</h5>
@@ -214,7 +205,7 @@
 											onchange="allCatChange()"><a href="#">All Categories (139)</a>
 									</li>
 									{% for cat in categories %}
-									<li><input type="checkbox" name="all-categories" id="" 
+									<li><input type="checkbox" name="{{cat.name}}" id="" 
 											onchange=""><a href="#">{{cat.name}}</a>
 									</li>					
 									{% endfor %}
@@ -233,7 +224,7 @@
 													onchange="allBrandChange()"><a href="#">All Brands (139)</a>
 											</li>
 											{% for item in brands %}
-											<li><input type="checkbox" name="all-categories" id="" 
+											<li><input type="checkbox" name="{{item.name}}" id="" 
 													onchange=""><a href="#">{{item.name}}</a>
 											</li>					
 											{% endfor %}
@@ -275,7 +266,7 @@
 						</div>
 						<div class="category-tags">
 						<!-- btn-search clear-all start -->
-						<button class="btn-primary mb-sm-30 mb-xs-30" type="submit" onclick="applyFilter()">Search</button>
+						<button class="btn-primary mb-sm-30 mb-xs-30" onclick="applyFilter()" type="submit">Search</button>
 						<button class="btn-danger mb-sm-30 mb-xs-30" onclick="clearAll()">Clear all</button>
 						<!-- btn-search clear-all end -->
 						</div>
@@ -296,7 +287,7 @@
 		
 		let c = document.getElementById("all-categories");
 		if (c.checked)
-		{    // call save to modify shipping address
+		{    // call save to modify all categories
 			updateInputs(true,1);		
 		}
 	  	else updateInputs(false,1);
@@ -305,7 +296,7 @@
 	function allBrandChange(){
 		let b = document.getElementById("all-brands");
 		if (b.checked)
-		{    // call save to modify shipping address
+		{    // call save to modify all brands
 			updateInputs(true,2);
 		}
 	  	else updateInputs(false,2);
@@ -314,7 +305,7 @@
 	function allPriceChange(){
 		 let p = document.getElementById("all-prices");
 		if (p.checked)
-		{    // call save to modify shipping address
+		{    // call save to modify all prices
 			updateInputs(true,3);;
 		}
 	  	else updateInputs(false,3);
@@ -349,18 +340,49 @@
 		updateInputs(true, 3);
 	}
 	function applyFilter() {
-		alert("hahahahahahah");
-		//varJS = '{{ path('shop-list',{'id':882}) }}';
-		varJS = 'localhost';
+		// build categories params
+		let params1="";
+		let checks1 = document.getElementById('categories').getElementsByTagName('input');
+		let len1 = checks1.length;
+		if (checks1[0].checked == false)
+		{
+			for(let i=0; i<len1 ; i++){
+				if (checks1[i].checked) params1 += checks1[i].name+"||";
+				}	
+		}
+		let params2="";
+		let checks2 = document.getElementById('brands').getElementsByTagName('input');
+		let len2 = checks2.length;
+		if (checks2[0].checked == false)
+		{
+			for(let i=0; i<len2 ; i++){
+				if (checks2[i].checked) params2 += checks2[i].name+"||";
+				}	
+		}
+		let params3="";
+		let checks3 = document.getElementById('prices').getElementsByTagName('input');
+		let len3 = checks3.length;
+		if (checks3[0].checked == false)
+		{
+			for(let i=0; i<len3 ; i++){
+				if (checks3[i].checked) params3 += checks3[i].name+"||";
+				}	
+		}
+		//alert("category="+params1+"&&brand="+params2+"&&price="+params3);
+		//alert(params1+'   -----   '+params2);
+		//varJS = '{{ path('shop-grid',{'id':882}) }}';
+		//varJS = 'localhost';
    		//url = url.replace('home', varJS);
-		window.location.replace(varJS);
-		//window.location.replace(url);
+		window.location.replace("{{path('contact')}}");
+		//window.location.href="https://localhost:8000";
+		//window.location.replace('http://www.example.com');
+		//window.location.href = 'newPage.html';
 	}
 	function sortBy() {
 		// apply a sort criteria
 		let sorting = document.getElementById('sorting').value;
 		alert(sorting);
-		varJS = '{{ path('shop-list',{'id':882}) }}';
+		varJS = '{{ path('shop-grid',{'id':882}) }}';
    		//url = url.replace('home', varJS);
 		window.location.replace(varJS);
 		//window.location.replace(url);

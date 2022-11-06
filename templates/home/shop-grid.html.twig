@@ -1,7 +1,7 @@
 {% extends './base.html.twig' %}
 
 {% block main %}
-<body onload="clearAll()">
+<body>
 	<!-- Begin Li's Breadcrumb Area -->
 	<div class="breadcrumb-area">
 		<div class="container">
@@ -56,20 +56,6 @@
 								<span>Showing {{first}} to {{last}} of {{ pagination.getTotalItemCount }} </span>
 							</div>
 						</div>
-						<!-- product-select-box start -->
-						{# <div class="product-select-box">
-							<div class="product-short">
-								<p>Sort By:</p>
-								<select class="nice-select" id = "sorting" onchange="sortBy()">
-									<option value="trending">Most Recent</option>
-									<option value="sales">Name (A - Z)</option>
-									<option value="sales">Name (Z - A)</option>
-									<option value="rating">Price (Low - High)</option>
-									<option value="date">Rating (Highest)</option>
-								</select>
-							</div>
-						</div> #}
-						<!-- product-select-box end -->
 					</div>
 					<!-- shop-top-bar end -->
 					<!-- shop-products-wrapper start -->
@@ -94,7 +80,7 @@
 													<div class="product_desc_info">
 														<div class="product-review">
 															<h5 class="manufacturer">
-																<a href="">Product Brand</a>
+																<a href="">{{f.brand.name}}</a>
 															</h5>
 															<div class="rating-box">
 																<ul class="rating">
@@ -200,27 +186,25 @@
 					</div>
 					<!-- shop-products-wrapper end -->
 				</div>
-				<div class="col-lg-3 order-1 order-lg-1">
-
+				<div class="col-lg-3 order-1 order-lg-1">			
 					<!--sidebar-categores-box start  -->
 					<div class="sidebar-categores-box">
+					<form action="" method="POST">
 						<div class="sidebar-title">
 							<h2>Filter By</h2>
 						</div>
 						{% set product_id = 881 %}
-						<form action="{{path('shop-grid')}}" method="POST">
+						
 						<!-- filter-sub-area start -->
 						<div class="filter-sub-area">
 							<h5 class="filter-sub-titel">Categories</h5>
 							<div class="categori-checkbox">
 								
 								<ul id="categories">
-									<li><input type="checkbox" name="all-categories" id="all-categories" 
-											onchange="allCatChange()"><a href="#">All Categories (139)</a>
+									<li><a href="#">All Categories (139)</a>
 									</li>
 									{% for cat in categories %}
-									<li><input type="checkbox" name="all-categories" id="" 
-											onchange=""><a href="#">{{cat.name}}</a>
+									<li><a href="#">{{cat.name}}</a>
 									</li>					
 									{% endfor %}
 								</ul>
@@ -234,12 +218,10 @@
 							<div class="categori-checkbox">
 								
 										<ul id="brands">
-											<li><input type="checkbox" name="all-brands" id="all-brands" 
-													onchange="allBrandChange()"><a href="#">All Brands (139)</a>
+											<li><a href="#">All Brands (139)</a>
 											</li>
 											{% for item in brands %}
-											<li><input type="checkbox" name="all-categories" id="" 
-													onchange=""><a href="#">{{item.name}}</a>
+											<li><a href="#">{{item.name}}</a>
 											</li>					
 											{% endfor %}
 									</ul>
@@ -252,20 +234,19 @@
 							<h5 class="filter-sub-titel">Price range</h5>
 							<div class="size-checkbox">
 									<ul id="prices">
-										<li><input type="checkbox" name="all-prices" id="all-prices"
-										onchange="allPriceChange()"><a href="#">All prices (139)</a>
+										<li><a href="#">All prices (139)</a>
 										</li>
-										<li><input type="checkbox" name="range1" id="range1"><a href="#">0-$99 (31)</a>
+										<li><a href="#">0-$99 (31)</a>
 										</li>
-										<li><input type="checkbox" name="range2" id="range2"><a href="#">$100-$199 (17)</a>
+										<li><a href="#">$100-$199 (17)</a>
 										</li>
-										<li><input type="checkbox" name="range3" id="range3"><a href="#">$200-$299 (27)</a>
+										<li><a href="#">$200-$299 (27)</a>
 										</li>
-										<li><input type="checkbox" name="range4" id="range4"><a href="#">$300-$399 (36)</a>
+										<li><a href="#">$300-$399 (36)</a>
 										</li>
-										<li><input type="checkbox" name="range5" id="range5"><a href="#">$400-$499 (14)</a>
+										<li><a href="#">$400-$499 (14)</a>
 										</li>
-										<li><input type="checkbox" name="range6" id="range6"><a href="#">$500+ (21)</a>
+										<li><a href="#">$500+ (21)</a>
 										</li>
 									</ul>
 							</div>
@@ -280,7 +261,7 @@
 						</div>
 						<div class="category-tags">
 						<!-- btn-search clear-all start -->
-						<button class="btn-primary mb-sm-30 mb-xs-30" type="submit" onclick="applyFilter()">Search</button>
+						<button class="btn-primary mb-sm-30 mb-xs-30" onclick="applyFilter()" type="submit">Search</button>
 						<button class="btn-danger mb-sm-30 mb-xs-30" onclick="clearAll()">Clear all</button>
 						<!-- btn-search clear-all end -->
 						</div>
@@ -301,7 +282,7 @@
 		
 		let c = document.getElementById("all-categories");
 		if (c.checked)
-		{    // call save to modify shipping address
+		{    // call save to modify all categories
 			updateInputs(true,1);		
 		}
 	  	else updateInputs(false,1);
@@ -310,7 +291,7 @@
 	function allBrandChange(){
 		let b = document.getElementById("all-brands");
 		if (b.checked)
-		{    // call save to modify shipping address
+		{    // call save to modify all brands
 			updateInputs(true,2);
 		}
 	  	else updateInputs(false,2);
@@ -319,7 +300,7 @@
 	function allPriceChange(){
 		 let p = document.getElementById("all-prices");
 		if (p.checked)
-		{    // call save to modify shipping address
+		{    // call save to modify all prices
 			updateInputs(true,3);;
 		}
 	  	else updateInputs(false,3);
@@ -347,29 +328,7 @@
 				if (i>0) checks[i].disabled = checked;
 		}
 	}
-	function clearAll() {
-		// Clear all filter and set to default
-		updateInputs(true, 1);
-		updateInputs(true, 2);
-		updateInputs(true, 3);
-	}
-	function applyFilter() {
-		alert("hahahahahahah");
-		//varJS = '{{ path('shop-grid',{'id':882}) }}';
-		varJS = 'localhost';
-   		//url = url.replace('home', varJS);
-		window.location.replace(varJS);
-		//window.location.replace(url);
-	}
-	function sortBy() {
-		// apply a sort criteria
-		let sorting = document.getElementById('sorting').value;
-		alert(sorting);
-		varJS = '{{ path('shop-grid',{'id':882}) }}';
-   		//url = url.replace('home', varJS);
-		window.location.replace(varJS);
-		//window.location.replace(url);
-	}
+
 </script>
 
 {% endblock %}
