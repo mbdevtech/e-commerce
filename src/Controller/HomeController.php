@@ -73,21 +73,19 @@ class HomeController extends AbstractController
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
-        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();    
 
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             12 /*limit per page*/
         );
-
         return $this->render('home/shop-grid.html.twig', [
                 'categories' => $categories,
                 'brands' => $brands,
                 'products' => $products,
                 'pagination'=> $pagination,
-            ]);
-        
+            ]);     
 
     }
 
@@ -115,21 +113,20 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/shop/discount", name="discount")
+     * @Route("/discount", name="discount")
      */
     public function discounts(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
         $discounts = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Discount']);
-
+        
         $pagination = $paginator->paginate(
             $discounts, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             15 /*limit per page*/
         );
-
-        return $this->render('home/shop.html.twig', [
+        return $this->render('home/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $discounts,
@@ -138,7 +135,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/shop/newarrival", name="new")
+     * @Route("/newarrival", name="newarrival")
      */
     public function newarrivals(PaginatorInterface $paginator, Request $request): Response
     {
@@ -152,7 +149,7 @@ class HomeController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop.html.twig', [
+        return $this->render('home/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $newarrivals,
@@ -161,9 +158,9 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/shop/best", name="best")
+     * @Route("/bestseller", name="bestseller")
      */
-    public function bestsellers(PaginatorInterface $paginator, Request $request): Response
+    public function bestseller(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
@@ -175,7 +172,76 @@ class HomeController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop.html.twig', [
+        return $this->render('home/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $bestsellers,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/topdeal", name="topdeal")
+     */
+    public function topdeal(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Top Deal']);
+
+        $pagination = $paginator->paginate(
+            $bestsellers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('home/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $bestsellers,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/hotdeal", name="hotdeal")
+     */
+    public function hotdeal(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Hot Deal']);
+
+        $pagination = $paginator->paginate(
+            $bestsellers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('home/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $bestsellers,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/featured", name="featured")
+     */
+    public function bestsellers(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Featured']);
+
+        $pagination = $paginator->paginate(
+            $bestsellers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('home/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $bestsellers,
