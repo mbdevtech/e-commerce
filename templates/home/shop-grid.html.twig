@@ -35,7 +35,7 @@
 										</a>
 									</li>
 									<li role="presentation">
-										<a data-toggle="tab" role="tab" aria-controls="list-view" href="{{path('shop-list')}}">
+										<a data-toggle="tab" role="tab" aria-controls="list-view" href="{{path('shop-grid')}}">
 											<i class="fa fa-th-list"></i>
 										</a>
 									</li>
@@ -43,11 +43,11 @@
 								<!-- shop-item-filter-list end -->
 							</div>
 							{# calculate navigation variables #}
-							{% set nbPages = (pagination.getTotalItemCount / 12) + 1 %}
+							{% set nbPages = (pagination.getTotalItemCount / 15) + 1 %}
 							{% if pagination.getPage %}	
-							{% set first, last = ((pagination.getPage - 1) * 12) + 1, ((pagination.getPage - 1 ) * 12) + 12 %}
+							{% set first, last = ((pagination.getPage - 1) * 15) + 1, ((pagination.getPage - 1 ) * 15) + 15 %}
 							{% else %}
-							{% set first, last = 1, 12 %}
+							{% set first, last = 1, 15 %}
 							{% endif %}
 							{% if last > pagination.getTotalItemCount %}
 							{% set last = pagination.getTotalItemCount %}
@@ -144,39 +144,48 @@
 									</div>
 									<div class="col-lg-6 col-md-6">
 										<ul class="pagination-box pt-xs-20 pb-xs-15">
+										{% set currentPath = path(app.request.attributes.get('_route'),
+                                                     app.request.attributes.get('_route_params')) %}
 											<li class="First">
 												{% set firstpage = 1 %}																			<li>
-												  <a href="{{ path('shop-grid', { 'page': firstpage }) }}">
+												  {# <a href="{{ path('shop-grid', { 'page': firstpage }) }}"> #}
+												  <a href="{{[currentPath,'?page=',firstpage]|join}}">
+												 {# {% set currentPath = currentPath[1:] %} #}
 												First</a>
 											</li>
 											{% set previous_page = pagination.getPage -1  %}
 											<li>
 											{% if previous_page > 0 %}
-												<a href="{{ path('shop-grid', { 'page': previous_page }) }}" class="Previous">
+											 <a href="{{[currentPath, '?page=', previous_page] | join }}" class="Previous">
+												{# <a href="{{ path(currentPath, { 'page': previous_page }) }}" class="Previous"> #}
 													<i class="fa fa-chevron-left"></i>
 													</a>	
 											{% else %}
-											<a href="{{ path('shop-grid', { 'page': 1 }) }}" class="inactive">
+											 <a href="{{[currentPath,'?page=1'] | join}}" class="inactive">
+											{# <a href="{{ path(currentPath, { 'page': 1 }) }}" class="inactive"> #}
 													<i class="fa fa-chevron-left"></i>
 													</a>
 											{% endif %}
 											</li>
 											{% set next_page = pagination.getPage + 1  %}
-											{% set lastpage = (pagination.getTotalItemCount % 12 == 0 ? (pagination.getTotalItemCount / 12) - 1 : (pagination.getTotalItemCount / 12)) %}																			<li>
+											{% set lastpage = (pagination.getTotalItemCount % 15 == 0 ? (pagination.getTotalItemCount / 12) - 1 : (pagination.getTotalItemCount / 12)) %}																			<li>
 											{% set lastpage = lastpage | number_format(0) %}
 											<li>
 											{% if next_page > nbPages %}
-												<a href="{{ path('shop-grid', { 'page': lastpage }) }}" class="Next">
+											 <a href="{{[currentPath,'?page=', lastpage] | join}}" class="Next">
+												{# <a href="{{ path(currentPath, { 'page': lastpage }) }}" class="Next"> #}
 													<i class="fa fa-chevron-right"></i>
 												</a>
 											{% else %}
-													<a href="{{ path('shop-grid', { 'page': next_page }) }}" class="Next">
+											<a href="{{[currentPath, '?page=', next_page] | join}}" class="Next">
+													{# <a href="{{ path(currentPath, { 'page': next_page }) }}" class="Next"> #}
 													<i class="fa fa-chevron-right"></i>
 												</a>
 											{% endif %}
 											</li>	
 											<li>
-												<a href="{{ path('shop-grid', { 'page': lastpage }) }}">Last</a>
+												<a href="{{[currentPath, '?page=', lastpage] | join}}" class="Last">Last</a>
+												{# <a href="{{ path(currentPath, { 'page': lastpage }) }}">Last</a> #}
 											</li>
 										</ul>
 									</div>
@@ -193,19 +202,18 @@
 						<div class="sidebar-title">
 							<h2>Filter By</h2>
 						</div>
-						{% set product_id = 881 %}
-						
+												
 						<!-- filter-sub-area start -->
 						<div class="filter-sub-area">
 							<h5 class="filter-sub-titel">Categories</h5>
 							<div class="categori-checkbox">
 								
 								<ul id="categories">
-									<li><a href="#">All Categories (139)</a>
+									<li><a href="{{path('shop-grid')}}">All Categories</a>
 									</li>
 									{% for cat in categories %}
-									<li><a href="#">{{cat.name}}</a>
-									</li>					
+									<li><a href="{{path('single_category',{'category':cat.name})}}">{{cat.name}}</a>
+									</li>	
 									{% endfor %}
 								</ul>
 								
