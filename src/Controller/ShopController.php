@@ -26,7 +26,7 @@ class ShopController extends AbstractController
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            12 /*limit per page*/
+            15 /*limit per page*/
         );
             return $this->render('home/shop-grid.html.twig', [
                 'categories' => $categories,
@@ -47,7 +47,7 @@ class ShopController extends AbstractController
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            12 /*limit per page*/
+            15 /*limit per page*/
         );
         return $this->render('home/shop-list.html.twig', [
                 'categories' => $categories,
@@ -102,5 +102,28 @@ class ShopController extends AbstractController
             'pagination' => $pagination,
         ]);
     }
+    /**
+     * @Route("/brand/{brand}", name="single_brand")
+     */
+    public function single_brand(string $brand, PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $mybrand = $this->getDoctrine()->getRepository(Brand::class)->findOneBy(['name' => $brand]);
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        //$products    = $this->getDoctrine()->getRepository(Product::class)->findBy(['brand' => $mybrand->getName()]);
+        $products = $mybrand->getProducts();
 
+        $pagination = $paginator->paginate(
+            $products, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('home/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $products,
+            'pagination' => $pagination,
+        ]);
+    }
 }

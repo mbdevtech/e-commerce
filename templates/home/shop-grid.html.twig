@@ -72,8 +72,9 @@
 											<div class="single-product-wrap">
 												<div class="product-image">
 													<a href="{{path('single_product',{'id': f.id})}}">
-														<img src="{{f.thumb}} " alt="{{f.name}}">												    
+														<img src="{{asset(f.thumb)}} " alt="{{f.name}}">												    
 													</a>
+													{{asset(f.thumb)}}
 													<span class="sticker">New</span>
 												</div>
 												<div class="product_desc">
@@ -168,8 +169,9 @@
 											{% endif %}
 											</li>
 											{% set next_page = pagination.getPage + 1  %}
-											{% set lastpage = (pagination.getTotalItemCount % 15 == 0 ? (pagination.getTotalItemCount / 12) - 1 : (pagination.getTotalItemCount / 12)) %}																			<li>
+											{% set lastpage = (pagination.getTotalItemCount % 15 == 0 ? (pagination.getTotalItemCount / 15 ) : nbPages)  %}																			<li>
 											{% set lastpage = lastpage | number_format(0) %}
+											
 											<li>
 											{% if next_page > nbPages %}
 											 <a href="{{[currentPath,'?page=', lastpage] | join}}" class="Next">
@@ -226,10 +228,10 @@
 							<div class="categori-checkbox">
 								
 										<ul id="brands">
-											<li><a href="#">All Brands (139)</a>
+											<li><a href="{{path('shop-grid')}}">All Brands (139)</a>
 											</li>
 											{% for item in brands %}
-											<li><a href="#">{{item.name}}</a>
+											<li><a href="{{path('single_brand',{'brand':item.name})}}">{{item.name}}</a>
 											</li>					
 											{% endfor %}
 									</ul>
