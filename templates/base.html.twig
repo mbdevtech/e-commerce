@@ -56,6 +56,7 @@
 		rel="stylesheet" href="{{asset('layout/css/responsive.css')}}">
 		<!-- Modernizr js -->
 		<script src="{{asset('layout/js/vendor/modernizr-2.8.3.min.js')}}"></script>
+
 	</head>
 	<body>
 		{% block header %}
@@ -79,9 +80,10 @@
 						<div
 							class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
 							<!-- Begin Header Middle Searchbox Area -->
-							<form action="" class="hm-searchbox">
+
+							<form action="{{ path('search') }}" method="POST" class="hm-searchbox">
 								<input type="text" name = "search" placeholder="Search by Category or Brand...">
-								<button class="li-btn" type="submit" onclick="searchProduct()">
+								<button class="li-btn" type="submit">
 									<i class="fa fa-search"></i>
 								</button>
 							</form>
@@ -625,15 +627,10 @@
 </script><!-- Slick Carousel js --><script src="{{asset('layout/js/slick.min.js')}}">
 </script><!-- Owl Carousel-2 js --><script src="{{asset('layout/js/owl.carousel.min.js')}}">
 </script><!-- Magnific popup js --><script src="{{asset('layout/js/jquery.magnific-popup.min.js')}}"></script><!-- Isotope js --><script src="{{asset('layout/js/isotope.pkgd.min.js')}}"></script><!-- Imagesloaded js --><script src="{{asset('layout/js/imagesloaded.pkgd.min.js')}}"></script><!-- Mixitup js --><script src="{{asset('layout/js/jquery.mixitup.min.js')}}"></script><!-- Countdown --><script src="{{asset('layout/js/jquery.countdown.min.js')}}"></script><!-- Counterup --><script src="{{asset('layout/js/jquery.counterup.min.js')}}"></script><!-- Waypoints --><script src="{{asset('layout/js/waypoints.min.js')}}"></script><!-- Barrating --><script src="{{asset('layout/js/jquery.barrating.min.js')}}"></script><!-- Jquery-ui --><script src="{{asset('layout/js/jquery-ui.min.js')}}"></script><!-- Venobox --><script src="{{asset('layout/js/venobox.min.js')}}"></script><!-- Nice Select js --><script src="{{asset('layout/js/jquery.nice-select.min.js')}}"></script><!-- ScrollUp js --><script src="{{asset('layout/js/scrollUp.min.js')}}"></script><!-- Main/Activator js --><script src="{{asset('layout/js/main.js')}}"></script>{% endblock %}</html></body></html></body></html>
-<script text="javascript">
-function searchProduct() {
-	// alert("Hello");
-	// document.location.href = "localhost:8001/about";
-	// window.location.replace("http://www.w3schools.com");
-
-	var url = Routing.generate('single_product', {
-    'id': 33
-});	
-   window.location.url = url;
-}
-</script>
+<script text = "javascript">
+ function searchProduct() {
+	alert"gggggggggggggggg";
+    window.location.href = {{path('contact')}};
+	window.location.replace({{path('contact')}});
+ }
+ </script>

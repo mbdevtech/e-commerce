@@ -10,7 +10,7 @@
 					<li>
 						<a href="{{path('home')}}">Home</a>
 					</li>
-					<li class="active">Shop</li>
+					<li class="active">{{breadcrumb}}</li>
 				</ul>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 										</a>
 									</li>
 									<li role="presentation">
-										<a data-toggle="tab" role="tab" aria-controls="list-view" href="{{path('shop-grid')}}">
+										<a data-toggle="tab" role="tab" aria-controls="list-view" href="{{path('shop-list')}}">
 											<i class="fa fa-th-list"></i>
 										</a>
 									</li>
@@ -74,7 +74,6 @@
 													<a href="{{path('single_product',{'id': f.id})}}">
 														<img src="{{asset(f.thumb)}} " alt="{{f.name}}">												    
 													</a>
-													{{asset(f.thumb)}}
 													<span class="sticker">New</span>
 												</div>
 												<div class="product_desc">
@@ -240,43 +239,8 @@
 						</div>
 						<!-- filter-sub-area end -->
 						<!-- filter-sub-area start -->
-						<div class="filter-sub-area pt-sm-10 pt-xs-10">
-							<h5 class="filter-sub-titel">Price range</h5>
-							<div class="size-checkbox">
-									<ul id="prices">
-										<li><a href="#">All prices (139)</a>
-										</li>
-										<li><a href="#">0-$99 (31)</a>
-										</li>
-										<li><a href="#">$100-$199 (17)</a>
-										</li>
-										<li><a href="#">$200-$299 (27)</a>
-										</li>
-										<li><a href="#">$300-$399 (36)</a>
-										</li>
-										<li><a href="#">$400-$499 (14)</a>
-										</li>
-										<li><a href="#">$500+ (21)</a>
-										</li>
-									</ul>
-							</div>
-						</div>
-						<!-- filter-sub-area end -->
 					</div>
 					<!--sidebar-categores-box end  -->
-					<!-- category-sub-menu start -->
-					<div class="sidebar-categores-box mb-sm-0 mb-xs-0">
-						<div class="sidebar-title">
-							<h2>Search</h2>
-						</div>
-						<div class="category-tags">
-						<!-- btn-search clear-all start -->
-						<button class="btn-primary mb-sm-30 mb-xs-30" onclick="applyFilter()" type="submit">Search</button>
-						<button class="btn-danger mb-sm-30 mb-xs-30" onclick="clearAll()">Clear all</button>
-						<!-- btn-search clear-all end -->
-						</div>
-						<!-- category-sub-menu end -->
-					</div>
 					</form>
 				</div>
 			</div>
@@ -287,7 +251,6 @@
 {% endblock %}
 {% block javascript %}
 <script text="javacript">
-
 	function allCatChange(){
 		
 		let c = document.getElementById("all-categories");

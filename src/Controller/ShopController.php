@@ -33,6 +33,7 @@ class ShopController extends AbstractController
                 'brands' => $brands,
                 'products' => $products,
                 'pagination' => $pagination,
+                'breadcrumb' => 'Shop-grid'
             ]);
     }
     /**
@@ -54,6 +55,7 @@ class ShopController extends AbstractController
                 'brands' => $brands,
                 'products' => $products,
                 'pagination' => $pagination,
+                'breadcrumb' => 'Shop-list'
             ]);
     }
 
@@ -87,8 +89,7 @@ class ShopController extends AbstractController
         $mycategory = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['Name' => $category]);
         $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
         $products    = $this->getDoctrine()->getRepository(Product::class)->findBy(['Category' => $mycategory->getId()]);
-      
-        $nbitems = count($products);
+
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
@@ -100,6 +101,7 @@ class ShopController extends AbstractController
             'brands' => $brands,
             'products' => $products,
             'pagination' => $pagination,
+            'breadcrumb' => $category
         ]);
     }
     /**
@@ -124,6 +126,7 @@ class ShopController extends AbstractController
             'brands' => $brands,
             'products' => $products,
             'pagination' => $pagination,
+            'breadcrumb' => $brand
         ]);
     }
 }

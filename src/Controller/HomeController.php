@@ -84,6 +84,7 @@ class HomeController extends AbstractController
             'brands' => $brands,
             'products' => $discounts,
             'pagination' => $pagination,
+            'breadcrumb' => 'Discount'
         ]);
     }
 
@@ -107,6 +108,7 @@ class HomeController extends AbstractController
             'brands' => $brands,
             'products' => $newarrivals,
             'pagination' => $pagination,
+            'breadcrumb' => 'New Arrival'
         ]);
     }
 
@@ -130,6 +132,7 @@ class HomeController extends AbstractController
             'brands' => $brands,
             'products' => $bestsellers,
             'pagination' => $pagination,
+            'breadcrumb' => 'Best Seller'
         ]);
     }
 
@@ -153,6 +156,7 @@ class HomeController extends AbstractController
             'brands' => $brands,
             'products' => $bestsellers,
             'pagination' => $pagination,
+            'breadcrumb' => 'Top Deal'
         ]);
     }
 
@@ -176,13 +180,14 @@ class HomeController extends AbstractController
             'brands' => $brands,
             'products' => $bestsellers,
             'pagination' => $pagination,
+            'breadcrumb' => 'Hot Deal'
         ]);
     }
 
     /**
      * @Route("/featured", name="featured")
      */
-    public function bestsellers(PaginatorInterface $paginator, Request $request): Response
+    public function featured(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
@@ -199,7 +204,28 @@ class HomeController extends AbstractController
             'brands' => $brands,
             'products' => $bestsellers,
             'pagination' => $pagination,
+            'breadcrumb' => 'Featured'
         ]);
+    }
+    /**
+     * @Route("/search", name="search")
+     */
+    public function search(Request $request): Response
+    {
+        $criteria = $request->request->get("search");
+        // search the desired category
+        $mycategory = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['Name' => $criteria]);
+        $mybrand = $this->getDoctrine()->getRepository(Brand::class)->findOneBy(['name' => $criteria]);
+        // if found category
+        if ($mycategory){
+            return $this->redirectToRoute('single_category',['category'=> $criteria]);
+        } else if ($mybrand){ // category not found we check for brand
+            return $this->redirectToRoute('single_brand', ['brand' => $criteria]);
+             }
+            else {
+                $this->redirectToRoute('error');
+                }
+                  
     }
     /**
      * @Route("/contact", name="contact")
