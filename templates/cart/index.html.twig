@@ -46,14 +46,12 @@
 												<td class="li-product-price">
 													<span class="amount">${{item.product.price}}</span>
 												</td>
-												<td class="quantity">
-													<label>Quantity</label>		
-													<div class="cart-plus-minus">
-														{{item.quantity}}
-													</div>
-													</td>
+												<td class="li-product-price">													
+														{{item.quantity}}		
+												</td>
 												<td class="product-subtotal">
-													<span class="amount">$70.00</span>
+												{% set subtotal = item.product.price * item.quantity %}
+													<span class="amount">${{subtotal}}</span>
 												</td>
 											</tr>
 										{% endfor %}
@@ -68,9 +66,6 @@
 											<input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
 											<input class="button" name="apply_coupon" value="Apply coupon" type="submit">
 										</div>
-										<div class="coupon2">
-											<input class="button" name="update_cart" value="Update cart" type="submit">
-										</div>
 									</div>
 								</div>
 							</div>
@@ -80,10 +75,10 @@
 										<h2>Cart totals</h2>
 										<ul>
 											<li>Subtotal
-												<span>$130.00</span>
+												<span>${{total}}</span>
 											</li>
 											<li>Total
-												<span>$130.00</span>
+												<span>${{total}}</span>
 											</li>
 										</ul>
 										<a href="#">Proceed to checkout</a>

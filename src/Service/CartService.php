@@ -48,7 +48,7 @@ public function Total(SessionInterface $session, ProductRepository $productRepo)
         // Add products to the Cart
         $total = 0;
         foreach ($cart as $id => $quantity) {
-            $subtotal = $productRepo->find($id)->getPrice();
+            $subtotal = $productRepo->find($id)->getPrice() * $quantity;
             $total = (float)($total + $subtotal);
         }
         return $total;
