@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\PhotoRepository;
 use App\Repository\ProductRepository;
+use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,54 +18,36 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="shopping_cart")
      */
-    public function index(SessionInterface $session, ProductRepository $repository)
+    public function index(SessionInterface $session, ProductRepository $repo, CartService $cs)
     {
         $cart = $session->get('cart', []);
-        // Add products to the Cart
-        $productsCart = [];
-        foreach ($cart as $id => $quantity) {
-            $productsCart[] = [
-                'product' => $repository->find($id),
-                //'product' => $productRepository->find($id),
-                'quantity' => $quantity,
-            ];
-        }
-        //dd($productsCart);
+        // call the service functions
         return $this->render('cart/index.html.twig', [
-            'cart' => $cart,
-            'productsCart' => $productsCart,
+            'cart' => $cart, 
+            'productsCart'=> $cs->List($session, $repo),
+            'total' => $cs->Total($session, $repo)
         ]);
     }
 
     /**
      * @Route("/add/{id}/", name="cart_add")
      */
-    public function add(int $id, SessionInterface $session)
+    public function add(int $id, SessionInterface $session, CartService $cs)
     {
-        $cart = $session->get('cart', []);
-        // find the product to add
-        if (!empty($cart[$id])) {
-            $cart[$id]++;
-        } else {
-            $cart[$id] = 1;
-        }
-        $session->Set('cart', $cart);
-        //end test
+        // call the service add function
+        $cs->Add($id,$session);
+        //redirect to list
         return $this->redirectToRoute('shopping_cart');
     }
 
     /**
      * @Route("/remove/{id}/", name="cart_remove")
      */
-    public function remove(int $id, SessionInterface $session)
+    public function remove(int $id, SessionInterface $session, CartService $cs)
     {
-        $cart = $session->get('cart', []);
-        // remoce the product if exist
-        if (!empty($cart[$id])) {
-            unset($cart[$id]);
-        }
-        $session->Set('cart', $cart);
-
+        // call the service remove function
+        $cs->Remove($id, $session);
+        //redirect to list
         return $this->redirectToRoute('shopping_cart');
     }
 
