@@ -20,7 +20,7 @@ class HomeController extends AbstractController
      * @Route("/", name="home")
      */
     public function index(): Response
-    {
+    {   
         // extract 10 last items from new arrivals if count > 10
         $newarrivals = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'New Arrival']);
         $nbitems = count($newarrivals);
@@ -223,7 +223,7 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('single_brand', ['brand' => $criteria]);
              }
             else {
-                $this->redirectToRoute('error');
+                return $this->redirectToRoute('home');
                 }
                   
     }
