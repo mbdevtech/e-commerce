@@ -36,7 +36,7 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
             $cat->setIcon("");
             $manager->persist($cat);
             // create products
-            for ($i = 0; $i < mt_rand(50, 60); $i++) {
+            for ($i = 0; $i < mt_rand(4000, 6500); $i++) {
                 $product = new Product();
                 $product->setName('product ' . $i . ' of ' . $cat->getName());
                 $product->setExcerpt('product ' . $i . ' of ' . $cat->getName());
@@ -44,7 +44,7 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
                 $product->setCategory($cat);
                 // set the other fields
                 $product->setPrice(mt_rand(9.99, 99.99));
-                $product->setQuantity(mt_rand(3, 15));
+                $product->setQuantity(mt_rand(3, 25));
                 $product->setDescription("Lorem ipsum vetgt ulu vetsic Lorem ipsum vetgt ulu vetsic");
                 $product->setEditedAt(new \DateTime());
                 $product->setBrand($brands[mt_rand(0, count($brands)-1)]);
