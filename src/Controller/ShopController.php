@@ -60,7 +60,7 @@ class ShopController extends AbstractController
     }
 
     /**
-     * @Route("/shop/{id}", name="single_product")
+     * @Route("/shop/product/{id}", name="single_product")
      */
     public function single_product(int $id): Response
     {
@@ -105,7 +105,7 @@ class ShopController extends AbstractController
         ]);
     }
     /**
-     * @Route("shop/brand/{brand}", name="single_brand")
+     * @Route("/shop/brand/{brand}", name="single_brand")
      */
     public function single_brand(string $brand, PaginatorInterface $paginator, Request $request): Response
     {
@@ -127,6 +127,148 @@ class ShopController extends AbstractController
             'products' => $products,
             'pagination' => $pagination,
             'breadcrumb' => $brand
+        ]);
+    }
+     /**
+     * @Route("/shop/discount", name="discount")
+     */
+    public function discounts(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $discounts = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Discount']);
+        
+        $pagination = $paginator->paginate(
+            $discounts, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+        return $this->render('shop/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $discounts,
+            'pagination' => $pagination,
+            'breadcrumb' => 'Discount'
+        ]);
+    }
+
+    /**
+     * @Route("/shop/newarrival", name="newarrival")
+     */
+    public function newarrivals(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $newarrivals = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'New Arrival']);
+
+        $pagination = $paginator->paginate(
+            $newarrivals, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('shop/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $newarrivals,
+            'pagination' => $pagination,
+            'breadcrumb' => 'New Arrival'
+        ]);
+    }
+
+    /**
+     * @Route("/shop/bestseller", name="bestseller")
+     */
+    public function bestseller(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Best Seller']);
+
+        $pagination = $paginator->paginate(
+            $bestsellers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('shop/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $bestsellers,
+            'pagination' => $pagination,
+            'breadcrumb' => 'Best Seller'
+        ]);
+    }
+
+    /**
+     * @Route("/shop/topdeal", name="topdeal")
+     */
+    public function topdeal(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Top Deal']);
+
+        $pagination = $paginator->paginate(
+            $bestsellers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('shop/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $bestsellers,
+            'pagination' => $pagination,
+            'breadcrumb' => 'Top Deal'
+        ]);
+    }
+
+    /**
+     * @Route("/shop/hotdeal", name="hotdeal")
+     */
+    public function hotdeal(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Hot Deal']);
+
+        $pagination = $paginator->paginate(
+            $bestsellers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('shop/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $bestsellers,
+            'pagination' => $pagination,
+            'breadcrumb' => 'Hot Deal'
+        ]);
+    }
+
+    /**
+     * @Route("/shop/featured", name="featured")
+     */
+    public function featured(PaginatorInterface $paginator, Request $request): Response
+    {
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
+        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Featured']);
+
+        $pagination = $paginator->paginate(
+            $bestsellers, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+
+        return $this->render('shop/shop-grid.html.twig', [
+            'categories' => $categories,
+            'brands' => $brands,
+            'products' => $bestsellers,
+            'pagination' => $pagination,
+            'breadcrumb' => 'Featured'
         ]);
     }
 }
