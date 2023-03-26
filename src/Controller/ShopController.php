@@ -48,7 +48,7 @@ class ShopController extends AbstractController
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            15 /*limit per page*/
+            5 /*limit per page*/
         );
         return $this->render('home/shop-list.html.twig', [
                 'categories' => $categories,

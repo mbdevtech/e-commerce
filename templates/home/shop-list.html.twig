@@ -195,28 +195,25 @@
 					</div>
 					<!-- shop-products-wrapper end -->
 				</div>
-				<div class="col-lg-3 order-1 order-lg-1">
-
+				<div class="col-lg-3 order-1 order-lg-1">			
 					<!--sidebar-categores-box start  -->
 					<div class="sidebar-categores-box">
+					<form action="" method="POST">
 						<div class="sidebar-title">
 							<h2>Filter By</h2>
 						</div>
-						{% set product_id = 881 %}
-						<form action="{{path('shop-list')}}" method="POST">
+												
 						<!-- filter-sub-area start -->
 						<div class="filter-sub-area">
 							<h5 class="filter-sub-titel">Categories</h5>
 							<div class="categori-checkbox">
 								
 								<ul id="categories">
-									<li><input type="checkbox" name="all-categories" id="all-categories" 
-											onchange="allCatChange()"><a href="#">All Categories (139)</a>
+									<li><a href="{{path('shop-grid')}}">All Categories</a>
 									</li>
 									{% for cat in categories %}
-									<li><input type="checkbox" name="all-categories" id="" 
-											onchange=""><a href="#">{{cat.name}}</a>
-									</li>					
+									<li><a href="{{path('single_category',{'category':cat.name})}}">{{cat.name}}</a>
+									</li>	
 									{% endfor %}
 								</ul>
 								
@@ -229,12 +226,10 @@
 							<div class="categori-checkbox">
 								
 										<ul id="brands">
-											<li><input type="checkbox" name="all-brands" id="all-brands" 
-													onchange="allBrandChange()"><a href="#">All Brands (139)</a>
+											<li><a href="{{path('shop-grid')}}">All Brands (139)</a>
 											</li>
 											{% for item in brands %}
-											<li><input type="checkbox" name="all-categories" id="" 
-													onchange=""><a href="#">{{item.name}}</a>
+											<li><a href="{{path('single_brand',{'brand':item.name})}}">{{item.name}}</a>
 											</li>					
 											{% endfor %}
 									</ul>
@@ -243,45 +238,9 @@
 						</div>
 						<!-- filter-sub-area end -->
 						<!-- filter-sub-area start -->
-						<div class="filter-sub-area pt-sm-10 pt-xs-10">
-							<h5 class="filter-sub-titel">Price range</h5>
-							<div class="size-checkbox">
-									<ul id="prices">
-										<li><input type="checkbox" name="all-prices" id="all-prices"
-										onchange="allPriceChange()"><a href="#">All prices (139)</a>
-										</li>
-										<li><input type="checkbox" name="range1" id="range1"><a href="#">0-$99 (31)</a>
-										</li>
-										<li><input type="checkbox" name="range2" id="range2"><a href="#">$100-$199 (17)</a>
-										</li>
-										<li><input type="checkbox" name="range3" id="range3"><a href="#">$200-$299 (27)</a>
-										</li>
-										<li><input type="checkbox" name="range4" id="range4"><a href="#">$300-$399 (36)</a>
-										</li>
-										<li><input type="checkbox" name="range5" id="range5"><a href="#">$400-$499 (14)</a>
-										</li>
-										<li><input type="checkbox" name="range6" id="range6"><a href="#">$500+ (21)</a>
-										</li>
-									</ul>
-							</div>
-						</div>
-						<!-- filter-sub-area end -->
-					</div>
-					<!--sidebar-categores-box end  -->
-					<!-- category-sub-menu start -->
-					<div class="sidebar-categores-box mb-sm-0 mb-xs-0">
-						<div class="sidebar-title">
-							<h2>Search</h2>
-						</div>
-						<div class="category-tags">
-						<!-- btn-search clear-all start -->
-						<button class="btn-primary mb-sm-30 mb-xs-30" type="submit" onclick="applyFilter()">Search</button>
-						<button class="btn-danger mb-sm-30 mb-xs-30" onclick="clearAll()">Clear all</button>
-						<!-- btn-search clear-all end -->
-						</div>
-						<!-- category-sub-menu end -->
 					</div>
 					</form>
+					<!--sidebar-categores-box end  -->
 				</div>
 			</div>
 		</div>
