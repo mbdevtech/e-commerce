@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ShopController extends AbstractController
 {
     /**
-     * @Route("/shop-grid", name="shop-grid")
+     * @Route("/shop", name="shop-grid")
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
@@ -28,7 +28,7 @@ class ShopController extends AbstractController
             $request->query->getInt('page', 1), /*page number*/
             15 /*limit per page*/
         );
-            return $this->render('home/shop-grid.html.twig', [
+            return $this->render('shop/shop-grid.html.twig', [
                 'categories' => $categories,
                 'brands' => $brands,
                 'products' => $products,
@@ -37,7 +37,7 @@ class ShopController extends AbstractController
             ]);
     }
     /**
-     * @Route("/shop-list", name="shop-list")
+     * @Route("/shop/list", name="shop-list")
      */
     public function list(PaginatorInterface $paginator, Request $request): Response
     {
@@ -50,7 +50,7 @@ class ShopController extends AbstractController
             $request->query->getInt('page', 1), /*page number*/
             5 /*limit per page*/
         );
-        return $this->render('home/shop-list.html.twig', [
+        return $this->render('shop/shop-list.html.twig', [
                 'categories' => $categories,
                 'brands' => $brands,
                 'products' => $products,
@@ -73,7 +73,7 @@ class ShopController extends AbstractController
         $single  = $this->getDoctrine()->getRepository(Photo::class)->findBy(['Product' => $id]);
 
         if ($product) {
-            return $this->render('home/single_product.html.twig', [
+            return $this->render('shop/single_product.html.twig', [
                 'single' => $single,
                 'product' => $product,
                 'same' => $same
@@ -81,7 +81,7 @@ class ShopController extends AbstractController
         } else return $this->render('home/error.html.twig');
     }
     /**
-     * @Route("/{category}", name="single_category")
+     * @Route("/shop/category/{category}", name="single_category")
      */
     public function single_category(string $category, PaginatorInterface $paginator, Request $request): Response
     {
@@ -96,7 +96,7 @@ class ShopController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $products,
@@ -105,7 +105,7 @@ class ShopController extends AbstractController
         ]);
     }
     /**
-     * @Route("/brand/{brand}", name="single_brand")
+     * @Route("shop/brand/{brand}", name="single_brand")
      */
     public function single_brand(string $brand, PaginatorInterface $paginator, Request $request): Response
     {
@@ -121,7 +121,7 @@ class ShopController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $products,

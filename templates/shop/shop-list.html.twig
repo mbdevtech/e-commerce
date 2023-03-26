@@ -1,7 +1,7 @@
 {% extends './base.html.twig' %}
 
 {% block main %}
-<body>
+<body onload="clearAll()">
 	<!-- Begin Li's Breadcrumb Area -->
 	<div class="breadcrumb-area">
 		<div class="container">
@@ -10,7 +10,7 @@
 					<li>
 						<a href="{{path('home')}}">Home</a>
 					</li>
-					<li class="active">{{breadcrumb}}</li>
+					<li class="active">Shop</li>
 				</ul>
 			</div>
 		</div>
@@ -43,40 +43,44 @@
 								<!-- shop-item-filter-list end -->
 							</div>
 							{# calculate navigation variables #}
-							{% set nbPages = (pagination.getTotalItemCount / 15) + 1 %}
+							{% set nbPages = (pagination.getTotalItemCount / 5) + 1 %}
 							{% if pagination.getPage %}	
-							{% set first, last = ((pagination.getPage - 1) * 15) + 1, ((pagination.getPage - 1 ) * 15) + 15 %}
+							{% set first, last = ((pagination.getPage - 1) * 5) + 1, ((pagination.getPage - 1 ) * 5) + 5 %}
 							{% else %}
-							{% set first, last = 1, 15 %}
+							{% set first, last = 1, 5 %}
 							{% endif %}
 							{% if last > pagination.getTotalItemCount %}
 							{% set last = pagination.getTotalItemCount %}
-							{% endif %}						
-					
+							{% endif %}
 							<div class="toolbar-amount">
 								<span>Showing {{first}} to {{last}} of {{ pagination.getTotalItemCount }} </span>
 							</div>
 						</div>
+						<!-- product-select-box end -->
 					</div>
 					<!-- shop-top-bar end -->
 					<!-- shop-products-wrapper start -->
 					<div class="shop-products-wrapper">
 						<div class="tab-content">
-							<div id="grid-view" class="tab-pane fade active show" role="tabpanel">
+							<div id="list-view" class="tab-pane fade product-list-view active show" role="tabpanel">
 								<div class="product-area shop-product-area">
 									<div class="row">
 										{# display real products start #}
 										{% for f in pagination %}
 										<div
-											class="col-lg-4 col-md-4 col-sm-6 mt-40">
+											<div class="col-lg-12 col-md-12 col-sm-12 mt-40">
 											<!-- single-product-wrap start -->
 											<div class="single-product-wrap">
+											<div class="row mt-20">
+											<div class="col-lg-4 col-md-4 col-sm-6">
 												<div class="product-image">
 													<a href="{{path('single_product',{'id': f.id})}}">
 														<img src="{{asset(f.thumb)}} " alt="{{f.name}}">												    
 													</a>
 													<span class="sticker">New</span>
 												</div>
+											</div>
+											<div class="col-lg-8 col-md-8 col-sm-6">
 												<div class="product_desc">
 													<div class="product_desc_info">
 														<div class="product-review">
@@ -130,8 +134,11 @@
 													</div>
 												</div>
 											</div>
+											</div>
+											</div>
+											</div>
 											<!-- single-product-wrap end -->
-										</div>
+									
 										{% endfor %}
 										{# display real products end #}
 									</div>
@@ -145,45 +152,40 @@
 									</div>
 									<div class="col-lg-6 col-md-6">
 										<ul class="pagination-box pt-xs-20 pb-xs-15">
-										{% set currentPath = path(app.request.attributes.get('_route'),
-                                                     app.request.attributes.get('_route_params')) %}
 											<li class="First">
 												{% set firstpage = 1 %}																			<li>
-												  {# <a href="{{ path('shop-grid', { 'page': firstpage }) }}"> #}
-												  <a href="{{[currentPath,'?page=',firstpage]|join}}">
-												 {# {% set currentPath = currentPath[1:] %} #}
+												  <a href="{{ path('shop-list', { 'page': firstpage }) }}">
 												First</a>
 											</li>
 											{% set previous_page = pagination.getPage -1  %}
 											<li>
 											{% if previous_page > 0 %}
-											 <a href="{{[currentPath, '?page=', previous_page] | join }}" class="Previous">
-												{# <a href="{{ path(currentPath, { 'page': previous_page }) }}" class="Previous"> #}
+												<a href="{{ path('shop-list', { 'page': previous_page }) }}" class="Previous">
 													<i class="fa fa-chevron-left"></i>
 													</a>	
 											{% else %}
-											 <a href="{{[currentPath,'?page=1'] | join}}" class="inactive">
+											<a href="{{ path('shop-list', { 'page': 1 }) }}" class="inactive">
 													<i class="fa fa-chevron-left"></i>
 													</a>
 											{% endif %}
 											</li>
 											{% set next_page = pagination.getPage + 1  %}
-											{% set lastpage = (pagination.getTotalItemCount % 15 == 0 ? (pagination.getTotalItemCount / 15 ) : nbPages)  %}																			<li>
+											{% set lastpage = (pagination.getTotalItemCount % 5 == 0 ? (pagination.getTotalItemCount / 5) - 1 : (pagination.getTotalItemCount / 5) ) %}																			<li>
 											{% set lastpage = lastpage | number_format(0,'','') %}
-											
 											<li>
+
 											{% if next_page > nbPages %}
-											 <a href="{{[currentPath,'?page=', lastpage] | join}}" class="Next">
+												<a href="{{ path('shop-list', { 'page': lastpage }) }}" class="Next">
 													<i class="fa fa-chevron-right"></i>
 												</a>
 											{% else %}
-											<a href="{{[currentPath, '?page=', next_page] | join}}" class="Next">
+													<a href="{{ path('shop-list', { 'page': next_page }) }}" class="Next">
 													<i class="fa fa-chevron-right"></i>
 												</a>
 											{% endif %}
 											</li>	
 											<li>
-												<a href="{{[currentPath, '?page=', lastpage] | join}}" class="Last">Last</a>
+												<a href="{{ path('shop-list', { 'page': lastpage }) }}">Last</a>
 											</li>
 										</ul>
 									</div>
@@ -248,11 +250,12 @@
 {% endblock %}
 {% block javascript %}
 <script text="javacript">
+
 	function allCatChange(){
 		
 		let c = document.getElementById("all-categories");
 		if (c.checked)
-		{    // call save to modify all categories
+		{    // call save to modify shipping address
 			updateInputs(true,1);		
 		}
 	  	else updateInputs(false,1);
@@ -261,7 +264,7 @@
 	function allBrandChange(){
 		let b = document.getElementById("all-brands");
 		if (b.checked)
-		{    // call save to modify all brands
+		{    // call save to modify shipping address
 			updateInputs(true,2);
 		}
 	  	else updateInputs(false,2);
@@ -270,7 +273,7 @@
 	function allPriceChange(){
 		 let p = document.getElementById("all-prices");
 		if (p.checked)
-		{    // call save to modify all prices
+		{    // call save to modify shipping address
 			updateInputs(true,3);;
 		}
 	  	else updateInputs(false,3);
@@ -298,7 +301,29 @@
 				if (i>0) checks[i].disabled = checked;
 		}
 	}
-
+	function clearAll() {
+		// Clear all filter and set to default
+		updateInputs(true, 1);
+		updateInputs(true, 2);
+		updateInputs(true, 3);
+	}
+	function applyFilter() {
+		alert("hahahahahahah");
+		//varJS = '{{ path('shop-list',{'id':882}) }}';
+		varJS = 'localhost';
+   		//url = url.replace('home', varJS);
+		window.location.replace(varJS);
+		//window.location.replace(url);
+	}
+	function sortBy() {
+		// apply a sort criteria
+		let sorting = document.getElementById('sorting').value;
+		alert(sorting);
+		varJS = '{{ path('shop-list',{'id':882}) }}';
+   		//url = url.replace('home', varJS);
+		window.location.replace(varJS);
+		//window.location.replace(url);
+	}
 </script>
 
 {% endblock %}

@@ -79,7 +79,7 @@ class HomeController extends AbstractController
             $request->query->getInt('page', 1), /*page number*/
             15 /*limit per page*/
         );
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $discounts,
@@ -103,7 +103,7 @@ class HomeController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $newarrivals,
@@ -127,7 +127,7 @@ class HomeController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $bestsellers,
@@ -151,7 +151,7 @@ class HomeController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $bestsellers,
@@ -175,7 +175,7 @@ class HomeController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $bestsellers,
@@ -199,7 +199,7 @@ class HomeController extends AbstractController
             15 /*limit per page*/
         );
 
-        return $this->render('home/shop-grid.html.twig', [
+        return $this->render('shop/shop-grid.html.twig', [
             'categories' => $categories,
             'brands' => $brands,
             'products' => $bestsellers,
