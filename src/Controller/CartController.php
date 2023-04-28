@@ -56,7 +56,7 @@ class CartController extends AbstractController
      */
     public function checkout($id)
     {
-        return $this->render('shopping/cart/checkout.html.twig', [
+        return $this->render('/cart/checkout2.html.twig', [
             'controller_name' => 'CartController',
             'id' => $id
         ]);

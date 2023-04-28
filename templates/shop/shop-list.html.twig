@@ -30,7 +30,7 @@
 								<!-- shop-item-filter-list start -->
 								<ul class="nav shop-item-filter-list" role="tablist">
 									<li class="active" role="presentation">
-										<a aria-selected="true" class="active show" data-toggle="tab" role="tab" aria-controls="grid-view" href="{{path('shop-grid')}}">
+										<a aria-selected="true" class="active show" data-toggle="tab" role="tab" aria-controls="grid-view" href="{{path('shop-grid',{'list':'false'})}}">
 											<i class="fa fa-th"></i>
 										</a>
 									</li>
@@ -209,7 +209,7 @@
 							<div class="categori-checkbox">
 								
 								<ul id="categories">
-									<li><a href="{{path('shop-grid')}}">All Categories</a>
+									<li><a href="{{path('shop-grid',{'list':'false'})}}">All Categories</a>
 									</li>
 									{% for cat in categories %}
 									<li><a href="{{path('single_category',{'category':cat.name})}}">{{cat.name}}</a>
@@ -226,7 +226,7 @@
 							<div class="categori-checkbox">
 								
 										<ul id="brands">
-											<li><a href="{{path('shop-grid')}}">All Brands (139)</a>
+											<li><a href="{{path('shop-grid',{'list':'false'})}}">All Brands (139)</a>
 											</li>
 											{% for item in brands %}
 											<li><a href="{{path('single_brand',{'brand':item.name})}}">{{item.name}}</a>
