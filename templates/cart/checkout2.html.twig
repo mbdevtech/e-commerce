@@ -16,17 +16,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for product in products %}
+                        {% for item in products %}
                             <tr>
-                                <th class="col-xs-6 checkout-product-name">{{ product.name }}</th>
-                                <td class="col-xs-3">${{ product.price }}</td>
+                                <th class="col-xs-6 checkout-product-name">{{ item.product.name }}</th>
+                                <td class="col-xs-3">${{ item.product.price }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                     <tfoot>
                         <tr>
                             <th class="col-xs-6 info">Total</th>
-                            <td class="col-xs-3 info checkout-total">${{ cart.total }}</td>
+                            <td class="col-xs-3 info checkout-total">${{total}}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -36,7 +36,7 @@
                     <script
                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                         data-key="pk_test_HxZzNHy8LImKK9LDtgMDRBwd"
-                        data-amount="{{ cart.total * 100 }}"
+                        data-amount="{{ total * 100 }}"
                         data-name="Dollar Shear Club"
                         data-description="Widget"
                         data-image="{{ asset('images/logo.png') }}"
@@ -49,3 +49,4 @@
     </div>
 </div>
 {% endblock %}
+
