@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "855c75593584943aeeb81cb1b372fc87",
+    "content-hash": "8e05962604f7d4f03f88301a53794101",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2566,6 +2566,67 @@
             },
             "abandoned": "Symfony",
             "time": "2023-02-24T14:57:12+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v10.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "9e8055d55e8212ad844f48d7cf525b630689be35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/9e8055d55e8212ad844f48d7cf525b630689be35",
+                "reference": "9e8055d55e8212ad844f48d7cf525b630689be35",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v10.12.1"
+            },
+            "time": "2023-04-04T19:13:21+00:00"
         },
         {
             "name": "symfony/asset",
@@ -8213,6 +8274,7 @@
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
+<<<<<<< HEAD
             "version": "3.4.4",
             "source": {
                 "type": "git",
@@ -8223,6 +8285,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/9ec3139c52a42e94c9fd1e95f8d2bca94326edfb",
                 "reference": "9ec3139c52a42e94c9fd1e95f8d2bca94326edfb",
+=======
+            "version": "3.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
+                "reference": "fd39829fed8f090ef6e185d33449d47c2fb59c9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/fd39829fed8f090ef6e185d33449d47c2fb59c9c",
+                "reference": "fd39829fed8f090ef6e185d33449d47c2fb59c9c",
+>>>>>>> 72934ac131e7762f286ff7f350a23570ad4298b5
                 "shasum": ""
             },
             "require": {
@@ -8276,7 +8350,11 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineFixturesBundle/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/doctrine/DoctrineFixturesBundle/tree/3.4.4"
+=======
+                "source": "https://github.com/doctrine/DoctrineFixturesBundle/tree/3.4.3"
+>>>>>>> 72934ac131e7762f286ff7f350a23570ad4298b5
             },
             "funding": [
                 {
@@ -8292,7 +8370,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-05-02T15:12:16+00:00"
+=======
+            "time": "2023-04-11T12:37:36+00:00"
+>>>>>>> 72934ac131e7762f286ff7f350a23570ad4298b5
         },
         {
             "name": "myclabs/deep-copy",
@@ -8784,6 +8866,7 @@
         },
         {
             "name": "phpunit/phpunit",
+<<<<<<< HEAD
             "version": "9.6.8",
             "source": {
                 "type": "git",
@@ -8794,6 +8877,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/17d621b3aff84d0c8b62539e269e87d8d5baa76e",
                 "reference": "17d621b3aff84d0c8b62539e269e87d8d5baa76e",
+=======
+            "version": "9.6.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/phpunit.git",
+                "reference": "c993f0d3b0489ffc42ee2fe0bd645af1538a63b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c993f0d3b0489ffc42ee2fe0bd645af1538a63b2",
+                "reference": "c993f0d3b0489ffc42ee2fe0bd645af1538a63b2",
+>>>>>>> 72934ac131e7762f286ff7f350a23570ad4298b5
                 "shasum": ""
             },
             "require": {
@@ -8867,7 +8962,11 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.8"
+=======
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.7"
+>>>>>>> 72934ac131e7762f286ff7f350a23570ad4298b5
             },
             "funding": [
                 {
@@ -8883,7 +8982,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2023-05-11T05:14:45+00:00"
+=======
+            "time": "2023-04-14T08:58:40+00:00"
+>>>>>>> 72934ac131e7762f286ff7f350a23570ad4298b5
         },
         {
             "name": "sebastian/cli-parser",
