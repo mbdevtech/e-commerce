@@ -61,7 +61,7 @@ class CartController extends AbstractController
     {
         $cart = $session->get('cart', []);
         // call the service functions
-        return $this->render('/cart/checkout2.html.twig', [
+        return $this->render('/cart/checkout.html.twig', [
             'cart' => $cart, 
             'products'=> $cs->List($session, $repo),
             'total' => $cs->Total($session, $repo)        
@@ -75,22 +75,27 @@ class CartController extends AbstractController
         return $this->redirect('https://buy.stripe.com/test_4gw17z7C84YgbKw8ww');
     }
     /**
-     * @Route("/checkout/create-charge", name="checkout_charge", methods="GET")
+     * @Route("/checkout/create-charge", name="checkout_charge")
      */
     public function createCharge(Request $request)
     {
 
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
+        $token = $request->request->get('stripeToken');
+        dd($token);
         Stripe\Charge::create ([
                 "amount" => 5 * 100,
                 "currency" => "usd",
-                "source" => $request->request->get('stripeToken'),
+                //"customer" =>  $customer['id'] ,
+                "email" => 'mahfoud_bousba@yahoo.com',
+                "source" => $token,
                 "description" => "Binaryboxtuts Payment Test"
         ]);
+
         $this->addFlash(
             'success',
             'Payment Successful!'
         );
-        return $this->redirectToRoute('app_stripe', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('shopping_checkout', [], Response::HTTP_SEE_OTHER);
     }
 }

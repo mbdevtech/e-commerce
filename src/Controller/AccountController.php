@@ -7,8 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -51,11 +49,12 @@ class AccountController extends AbstractController
         if ($request->request->get('password') !== $request->request->get('confirm')) {
             echo ('Confirmation Password does not match with Password...');
         } else {
-            if ($request->request->get('email') != null && $request->request->get('password') != null) {
+            if ($request->request->get('email') != null && 
+                $request->request->get('password') != null) {
                 $em = $this->getDoctrine()->getManager();
                 $user = new User();
-                // $user->firstname = $request->request->get('first_name');
-                // $user->lastname = $request->request->get('last_name');
+                # $user->firstname = $request->request->get('first_name');
+                # $user->lastname = $request->request->get('last_name');
                 $user->setEmail($request->request->get('email'));
                 $user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
                 $em->persist($user);

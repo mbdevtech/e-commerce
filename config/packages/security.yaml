@@ -22,7 +22,7 @@ security:
       custom_authenticator: App\Security\AppUserAuthenticator
       remember_me:
         secret: "%kernel.secret%"
-        lifetime: 604800 # 1 week in seconds
+        lifetime: 555555 # in seconds
         path: /
       logout:
         path: app_logout
@@ -38,5 +38,5 @@ security:
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-    # - { path: ^/admin, roles: ROLE_ADMIN }
-    # - { path: ^/profile, roles: ROLE_USER }
+     - { path: ^/admin, roles: ROLE_ADMIN }
+     - { path: ^/profile, roles: ROLE_USER }
