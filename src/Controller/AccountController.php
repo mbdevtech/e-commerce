@@ -12,10 +12,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AccountController extends AbstractController
 {
-    /**
-     * @Route("/account", name="account")
-     */
-
+    #[Route('/account', name: 'account')]
     public function index(): Response
     {
         if ($this->getUser()) {
@@ -24,10 +21,8 @@ class AccountController extends AbstractController
 
         return $this->render('account/index.html.twig');
     }
-    /**
-     * @Route("/login", name="user_login")
-     */
 
+    #[Route('/login', name: 'user_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -41,9 +36,8 @@ class AccountController extends AbstractController
 
         return $this->render('account/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
-    /**
-     * @Route("/register", name="user_register")
-     */
+
+    #[Route('/register', name: 'user_register')]
     public function register(Request $request, UserPasswordHasherInterface $hasher): Response
     {
         if ($request->request->get('password') !== $request->request->get('confirm')) {
@@ -64,9 +58,8 @@ class AccountController extends AbstractController
         }
         return $this->render('account/register.html.twig');
     }
-    /**
-     * @Route("/logout", name="app_logout")
-     */
+
+    #[Route('/logout', name: 'app_logout')]
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

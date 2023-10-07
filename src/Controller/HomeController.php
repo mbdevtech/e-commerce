@@ -16,9 +16,8 @@ use function PHPUnit\Framework\returnSelf;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
+
+    #[Route('/', name: 'home')]
     public function index(): Response
     {   
         // extract 10 last items from new arrivals if count > 10
@@ -55,9 +54,8 @@ class HomeController extends AbstractController
             'prod_photos' => $this->getDoctrine()->getRepository(Photo::class)->findAll()
         ]);
     }
-    /**
-     * @Route("/about", name="about")
-     */
+
+    #[Route('/about', name: 'about')]
     public function about(): Response
     {
         return $this->render('home/about.html.twig', [
@@ -65,10 +63,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-   
-    /**
-     * @Route("/search", name="search")
-     */
+    #[Route('/search', name: 'search')]
     public function search(Request $request): Response
     {
         $criteria = $request->request->get("search");
@@ -86,9 +81,8 @@ class HomeController extends AbstractController
                 }
                   
     }
-    /**
-     * @Route("/contact", name="contact")
-     */
+
+    #[Route('/contact', name: 'contact')]
     public function contact(): Response
     {
         return $this->render('home/contact.html.twig', [

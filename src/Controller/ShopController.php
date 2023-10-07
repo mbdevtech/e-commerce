@@ -15,9 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ShopController extends AbstractController
 {
-    /**
-     * @Route("/shop/", name="shop-grid")
-     */
+
+    #[Route('/shop', name: 'shop-grid')]
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -39,9 +38,7 @@ class ShopController extends AbstractController
     
     }
 
-    /**
-     * @Route("/shop/product/{id}", name="single_product")
-     */
+    #[Route('/shop/product/{id}', name: 'single_product')]
     public function single_product(int $id): Response
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
@@ -61,9 +58,7 @@ class ShopController extends AbstractController
         } else return $this->render('home/error.html.twig');
     }
 
-    /**
-     * @Route("/shop/detail/{id}", name="detail_product")
-     */
+    #[Route('/shop/detail/{id}', name: 'detail_product')]
     public function detail_product(int $id): Response
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
@@ -79,9 +74,8 @@ class ShopController extends AbstractController
             ]);
         } else return $this->render('home/error.html.twig');
     }
-    /**
-     * @Route("/shop/category/{category}/", name="single_category")
-     */
+
+    #[Route('/shop/category/{category}', name: 'single_category')]
     public function single_category(string $category, PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -103,9 +97,8 @@ class ShopController extends AbstractController
             ]);
  
     }
-    /**
-     * @Route("/shop/brand/{brand}", name="single_brand")
-     */
+
+    #[Route('/shop/brand/{brand}', name: 'single_brand')]
     public function single_brand(string $brand, PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -128,9 +121,8 @@ class ShopController extends AbstractController
             'breadcrumb' => $brand
         ]);
     }
-     /**
-     * @Route("/shop/discount", name="discount")
-     */
+
+    #[Route('/shop/discount', name: 'discount')]
     public function discounts(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -151,9 +143,7 @@ class ShopController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/shop/newarrival", name="newarrival")
-     */
+    #[Route('/shop/newarrival', name: 'newarrival')]
     public function newarrivals(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -175,9 +165,7 @@ class ShopController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/shop/bestseller", name="bestseller")
-     */
+    #[Route('/shop/bestseller', name: 'bestseller')]
     public function bestseller(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -199,9 +187,7 @@ class ShopController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/shop/topdeal", name="topdeal")
-     */
+    #[Route('/shop/topdeal', name: 'topdeal')]
     public function topdeal(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -223,9 +209,7 @@ class ShopController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/shop/hotdeal", name="hotdeal")
-     */
+    #[Route('/shop/hotdeal', name: 'hotdeal')]
     public function hotdeal(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -247,9 +231,7 @@ class ShopController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/shop/featured", name="featured")
-     */
+    #[Route('/shop/featured', name: 'featured')]
     public function featured(PaginatorInterface $paginator, Request $request): Response
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
