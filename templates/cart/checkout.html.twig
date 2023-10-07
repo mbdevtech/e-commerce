@@ -257,28 +257,13 @@
                                             <tr>
                                                 <th class="cart-product-name">Product</th>
                                                 <th class="cart-product-total">Total</th>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <th class="col-xs-6 active">Product</th>
-                                                <th class="col-xs-3 active text-center">Price</th>
-                                            </tr>
-                                      
+                                            </tr>                                     
                                         </thead>
                                         <tbody>
-                                            <tr class="cart_item">
-                                              <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                              <td class="cart-product-total"><span class="amount">£165.00</span></td>  
-                                            </tr>
-                                            <tr class="cart_item">
-                                              <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                              <td class="cart-product-total"><span class="amount">£165.00</span></td>  
-                                            </tr>
-
                                             {% for item in products %}
                                                  <tr>
-                                                     <th class="col-xs-6 checkout-product-name">{{ item.product.name }}</th>
-                                                     <td class="col-xs-3">${{ item.product.price }}</td>
+                                                     <th class="col-xs-6 checkout-product-name">{{ item.product.name }} x {{ item.quantity }}</th>
+                                                     <td class="col-xs-3">${{ item.quantity * item.product.price}}</td>
                                                  </tr>
                                             {% endfor %}
                                         </tbody>
@@ -289,9 +274,9 @@
                                             </tr>
                                         </tfoot>
                                     </table>
-                                                <div class="col-xs-12 col-sm-6">
-            </div>
-                                </div>
+                            <div class="col-xs-12 col-sm-6">
+                     </div>
+                    </div>
                                 <div class="payment-method">
                                     <div class="payment-accordion">
                                         <div id="accordion">

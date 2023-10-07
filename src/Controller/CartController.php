@@ -79,7 +79,6 @@ class CartController extends AbstractController
      */
     public function createCharge(Request $request)
     {
-
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
         $token = $request->request->get('stripeToken');
         dd($token);
