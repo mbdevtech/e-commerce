@@ -12,11 +12,14 @@ Class CartService
       $cart = $session->get('cart', []);
       // Add products to the Cart
       $productsCart = [];
-      foreach ($cart as $id => $quantity) {
+      // if not empty
+      if($cart){
+        foreach ($cart as $id => $quantity) {
             $productsCart[] = [
                 'product' => $productRepo->find($id),
                 'quantity' => $quantity,
             ];
+        }
       }
       return $productsCart;
  }
@@ -42,14 +45,24 @@ public function Remove(int $id, SessionInterface $session)
         }
         $session->Set('cart', $cart);
 }
+public function Empty(SessionInterface $session)
+{
+        $cart = $session->get('cart', []); 
+
+        unset($cart);
+        $session->Set('cart', null);
+}
 public function Total(SessionInterface $session, ProductRepository $productRepo)
 {
         $cart = $session->get('cart', []);
         // Add products to the Cart
         $total = 0;
+        // if not empty
+        if ($cart){
         foreach ($cart as $id => $quantity) {
             $subtotal = $productRepo->find($id)->getPrice() * $quantity;
             $total = (float)($total + $subtotal);
+        }
         }
         return $total;
 }
