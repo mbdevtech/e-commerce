@@ -37,7 +37,8 @@ class Order
     private $EditedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderedProduct::class, mappedBy="OrderId", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=OrderedProduct::class, mappedBy="OrderId", orphanRemoval=true,cascade={"persist"})
+     * 
      */
     private $orderedProducts;
 

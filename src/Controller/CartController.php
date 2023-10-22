@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use App\Repository\PhotoRepository;
 use App\Repository\ProductRepository;
 use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Stripe;
 
 #[Route('/cart')]
 class CartController extends AbstractController
