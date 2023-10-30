@@ -3,12 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\OrderedProduct;
-use App\Entity\User;
 use App\Repository\ProductRepository;
+use App\Entity\User;
 use App\Service\CartService;
-use DateTime;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Service\CheckoutService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +16,6 @@ use Stripe;
 
 class CheckoutController extends AbstractController
 {   
-    private ManagerRegistry $manager;
-
-    public function __construct(ManagerRegistry $mr)
-    {
-        $this->manager = $mr;
-    }
 
     #[Route('/checkout', name: 'shopping_checkout')]
     public function index(SessionInterface $session, ProductRepository $repo, CartService $cs)
@@ -31,7 +23,7 @@ class CheckoutController extends AbstractController
         $cart = $session->get('cart', []);
 
         // call the service functions
-        return $this->render('/checkout/checkout3.html.twig', [
+        return $this->render('/checkout/checkout.html.twig', [
             'stripe_key' => $_ENV["STRIPE_KEY"],
             'cart' => $cart,
             'products' => $cs->List($session, $repo),
@@ -53,7 +45,7 @@ class CheckoutController extends AbstractController
                 'source' => $token,
                 'description' => 'My First Test Charge (created for API docs)',            ]
             );
-        // empty card if payment success
+        // empty cart if payment success
         $cs->Empty($session);
         $this->addFlash(
             'success',
@@ -64,42 +56,24 @@ class CheckoutController extends AbstractController
 
     // This Route allow to implement a Stripe hosted Checkout
     #[Route('/checkout/stripe', name: 'stripe-checkout')]
-    public function createCheckout(SessionInterface $session, ProductRepository $repo, CartService $cs): Response
+    public function createCheckout(SessionInterface $session, ProductRepository $repo, 
+        CartService $cs, CheckoutService $checkout): Response
     {
-     
+        // cart line items
         $items = $cs->List($session, $repo);
-
-        // create order for each product in line items
-        $order = new Order();
-        // add ordered products
-        foreach ($items as $item) {       
-            $orderedProduct = new OrderedProduct();
-            $orderedProduct->setProduct($item['product']);
-            $orderedProduct->setQuantity($item['quantity']);
-            $orderedProduct->setOrder($order);
-            $order->addOrderedProduct($orderedProduct);
-        }
+       
         // extract a user for test purpose
-        /* todo : 
-            - consider connected user if not use admin user
-            - create a payment record
-            - send email to the client when the payment succeed
-            - improve the code by creating a checkout service       
+        $user = (($this->getUser() != null) ? $this->getUser() :
+            $checkout->getManager()->getRepository(User::class)->find(12));
         
-        */
-        $user = (($this->getUser() != null)? $this->getUser():
-            $this->manager->getRepository(User::class)->find(12));
-        // set order proprieties
-        $order->setUser($user);
-        $order->setStatus("Pending");   // 3 possible status : pending, paid or canceled
-        $order->setEditedAt(new DateTime());
-        // save to db
-        $this->manager->getManager()->persist($order);
-        $this->manager->getManager()->flush();
-        // dd($order);
+        // create the order by calling the service
+        $order = $checkout->orderAdd($user, $items);
+        
+        // create the payment by calling the service
+        $payment = $checkout->paymentAdd($order, 'card', $cs->Total($session, $repo));
 
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
-        $session = \Stripe\Checkout\Session::create([
+        $checkout_session = \Stripe\Checkout\Session::create([
             'line_items' => [array_map(fn (array $product) =>
             [
                 'price_data' => [
@@ -107,9 +81,8 @@ class CheckoutController extends AbstractController
                     'unit_amount' => $product['product']->getPrice() * 100,
                     'product_data' => [
                         'name' => $product['product']->getName(),
-                        'description' => 'Comfortable cotton t-shirt',
-                        'images' => ['layout/images/product/large-size/2.jpg'],
-                    ],
+                        'description' => $product['product']->getDescription(),
+                        ],
                 ],
                 'quantity' => $product['quantity'],
             ], $items)],
@@ -119,20 +92,38 @@ class CheckoutController extends AbstractController
             'shipping_address_collection' => [
                 'allowed_countries' => ['CA', 'US']
             ],
-            'success_url' => 'https://localhost:8000/checkout/success',
+            'success_url' => 'https://localhost:8000/checkout/success?session_id={CHECKOUT_SESSION_ID}&order_id='.$order->getId(),
+            //'success_url' => 'https://localhost:8000/checkout/success'.'/' . $order->getId(),
             'cancel_url' => 'https://localhost:8000/checkout/cancel',
         ]);
-
-        return $this->redirect($session->url, 303);
+        // empty cart during checkout
+        $cs->Empty($session);
+        // redirect to stripe hosted checkout page
+        return $this->redirect($checkout_session->url, 303);
     }
 
     #[Route('/checkout/success', name: 'success')]
-    public function success(): Response
+    public function success(CheckoutService $checkout): Response
     {
+        Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
+
+        // update the order status
+        $checkout->orderUpdate($_GET['order_id'], 'paid');
+
+        // update the payment status
+        $order = $checkout->getManager()->getRepository(Order::class)->find($_GET['order_id']);
+        $checkout->paymentUpdate($order->getId(), 'success');
+
+        
+        $session = Stripe\Checkout\Session::retrieve($_GET['session_id']);
+        $customer = Stripe\Customer::retrieve($session->customer);
+
         return $this->render('checkout/success.html.twig', [
-            'controller_name' => 'CheckoutController',
+            'customer_email' => $customer->email,
+            'order_id' => $_GET['order_id']
         ]);
     }
+
 
     #[Route('/checkout/cancel', name: 'cancel')]
     public function cancel(): Response
