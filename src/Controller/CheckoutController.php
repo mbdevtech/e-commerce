@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Stripe;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 
 class CheckoutController extends AbstractController
 {   
@@ -103,7 +105,7 @@ class CheckoutController extends AbstractController
     }
 
     #[Route('/checkout/success', name: 'success')]
-    public function success(CheckoutService $checkout): Response
+    public function success(CheckoutService $checkout, MailerInterface $mailer): Response
     {
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
 
@@ -117,6 +119,10 @@ class CheckoutController extends AbstractController
         
         $session = Stripe\Checkout\Session::retrieve($_GET['session_id']);
         $customer = Stripe\Customer::retrieve($session->customer);
+
+        // ---- for offline test
+        $checkout->emailSend($mailer, 'mahfoud_bousba@yahoo.com');
+        // ---- end test
 
         return $this->render('checkout/success.html.twig', [
             'customer_email' => $customer->email,
@@ -132,5 +138,5 @@ class CheckoutController extends AbstractController
             'controller_name' => 'CheckoutController',
         ]);
     }
-   
+ 
 }

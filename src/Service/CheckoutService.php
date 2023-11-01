@@ -7,12 +7,11 @@ use App\Entity\OrderedProduct;
 use App\Entity\Payment;
 use App\Entity\User;
 use DateTime;
-use App\Repository\ProductRepository;
 use App\Repository\OrderRepository;
-use App\Repository\UserRepository;
 use App\Repository\PaymentRepository;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class CheckoutService
 {
@@ -111,8 +110,20 @@ class CheckoutService
         $this->manager->getManager()->flush();
 
     }
-    public function emailSend(ProductRepository $productRepo)
+    public function emailSend(MailerInterface $mailer, string $email)
     {
+        $mail = (new Email())
+            ->from('mahfoudbousba2@gmail.com')
+            ->to($email)
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($mail);
 
     }
 }
