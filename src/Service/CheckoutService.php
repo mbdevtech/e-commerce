@@ -10,8 +10,6 @@ use DateTime;
 use App\Repository\OrderRepository;
 use App\Repository\PaymentRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class CheckoutService
 {
@@ -108,22 +106,6 @@ class CheckoutService
         $payment[0]->setStatus($status);
         $this->manager->getManager()->persist($payment[0]);
         $this->manager->getManager()->flush();
-
-    }
-    public function emailSend(MailerInterface $mailer, string $email)
-    {
-        $mail = (new Email())
-            ->from('mahfoudbousba2@gmail.com')
-            ->to($email)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-
-        $mailer->send($mail);
 
     }
 }

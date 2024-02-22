@@ -7,14 +7,14 @@ use App\Repository\ProductRepository;
 use App\Entity\User;
 use App\Service\CartService;
 use App\Service\CheckoutService;
+use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Stripe;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\MailerInterface;
+//use Symfony\Component\Mailer\MailerInterface;
 
 class CheckoutController extends AbstractController
 {   
@@ -94,18 +94,19 @@ class CheckoutController extends AbstractController
             'shipping_address_collection' => [
                 'allowed_countries' => ['CA', 'US']
             ],
+            // get dynamic url from $_SERVER ot HTTP ewquest
             'success_url' => 'https://localhost:8000/checkout/success?session_id={CHECKOUT_SESSION_ID}&order_id='.$order->getId(),
             //'success_url' => 'https://localhost:8000/checkout/success'.'/' . $order->getId(),
             'cancel_url' => 'https://localhost:8000/checkout/cancel',
         ]);
-        // empty cart during checkout
-        $cs->Empty($session);
+
         // redirect to stripe hosted checkout page
         return $this->redirect($checkout_session->url, 303);
     }
 
     #[Route('/checkout/success', name: 'success')]
-    public function success(CheckoutService $checkout, MailerInterface $mailer): Response
+    public function success(SessionInterface $session, CartService $cs, ProductRepository $repo, 
+            CheckoutService $checkout, MailerService $ms): Response
     {
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
 
@@ -116,13 +117,17 @@ class CheckoutController extends AbstractController
         $order = $checkout->getManager()->getRepository(Order::class)->find($_GET['order_id']);
         $checkout->paymentUpdate($order->getId(), 'success');
 
-        
-        $session = Stripe\Checkout\Session::retrieve($_GET['session_id']);
-        $customer = Stripe\Customer::retrieve($session->customer);
+        $stripe_session = Stripe\Checkout\Session::retrieve($_GET['session_id']);
+        $customer = Stripe\Customer::retrieve($stripe_session->customer);
 
-        // ---- for offline test
-        $checkout->emailSend($mailer, 'mahfoud_bousba@yahoo.com');
-        // ---- end test
+        // get products list items
+        $items = $cs->List($session, $repo);
+
+        // send confirmation mail to customer with items list
+        $ms->twigEmailSend(2,$customer->email, $customer->name,$items);
+
+        // empty cart after checkout success
+        $cs->Empty($session);
 
         return $this->render('checkout/success.html.twig', [
             'customer_email' => $customer->email,

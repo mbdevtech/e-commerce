@@ -1,0 +1,62 @@
+<h1>Welcome {{name}}!</h1>
+
+<p>
+    This is a confirmation of your order.
+</p>
+<div>
+    <p>Thanks for your purchasing from our company</p>
+    <br>
+    <h3>Your order items</h3>
+
+    <div class="table-content table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="cart-product-name">Product</th>
+                    <th class="li-product-price">Price</th>
+                    <th class="li-product-quantity">Quantity</th>
+                    <th class="li-product-subtotal">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set total = 0 %}
+                {% for item in items %}
+                    <tr>
+                        <td class="li-product-name">
+                            <a href="#">{{item.product.name}}</a>
+                        </td>
+                        <td class="li-product-price">
+                            <span class="amount">${{item.product.price}}</span>
+                        </td>
+                        <td class="li-product-price">													
+                                {{item.quantity}}		
+                        </td>
+                        <td class="product-subtotal">
+                        {% set subtotal = item.product.price * item.quantity %}
+                        {% set total = total + subtotal %}
+                            <span class="amount">${{subtotal}}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        <div class="row">
+            <div class="col-md-5 ml-auto">
+                <div class="cart-page-total">
+                    <h2>Totals</h2>
+                    <ul>
+                        <li>Subtotal
+                            <span>${{total}}</span>
+                        </li>
+                        <li>Total
+                            <span>${{total}}</span>
+                        </li>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <p>See you next time on our site</p><span><a href="https://mahfoudbousba.netlify.com">Visit us</a>
+</div>
+
