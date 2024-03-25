@@ -9,8 +9,8 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 use App\Entity\Product;
 use App\Entity\Category;
-
 use App\Entity\Photo;
+
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
@@ -36,7 +36,7 @@ class Category_Product_Fixtures extends Fixture implements FixtureGroupInterface
             $cat->setIcon("");
             $manager->persist($cat);
             // create products
-            for ($i = 0; $i < mt_rand(4000, 6500); $i++) {
+            for ($i = 0; $i < mt_rand(1000, 2000); $i++) {
                 $product = new Product();
                 $product->setName('product ' . $i . ' of ' . $cat->getName());
                 $product->setExcerpt('product ' . $i . ' of ' . $cat->getName());

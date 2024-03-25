@@ -8,9 +8,7 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 use App\Entity\Brand;
 use App\Entity\User;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 
 class User_Brand_Fixtures extends Fixture implements FixtureGroupInterface
 {
@@ -18,10 +16,14 @@ class User_Brand_Fixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
-        // extract the admin user with id 4
+        // define a password factory
+        $factory = new PasswordHasherFactory(['auto' => ['algorithm' => 'auto']]);
+        // use a password hasher
+        $hasher = $factory->getPasswordHasher('auto');
+
         $admin_user = new User();
         $admin_user->setEmail("admin@myshop.com");
-        $admin_user->setPassword("admin");
+        $admin_user->setPassword($hasher->hash("admin"));
         $this->addReference(self::USER_REFERENCE, $admin_user);
         $manager->persist($admin_user);
 

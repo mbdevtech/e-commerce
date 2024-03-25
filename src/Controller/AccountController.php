@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,21 +39,20 @@ class AccountController extends AbstractController
     }
 
     #[Route('/register', name: 'user_register')]
-    public function register(Request $request, UserPasswordHasherInterface $hasher): Response
+    public function register(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher): Response
     {
         if ($request->request->get('password') !== $request->request->get('confirm')) {
             echo ('Confirmation Password does not match with Password...');
         } else {
             if ($request->request->get('email') != null && 
                 $request->request->get('password') != null) {
-                $em = $this->getDoctrine()->getManager();
                 $user = new User();
                 # $user->firstname = $request->request->get('first_name');
                 # $user->lastname = $request->request->get('last_name');
                 $user->setEmail($request->request->get('email'));
                 $user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
-                $em->persist($user);
-                $em->flush();
+                $em->getManager()->persist($user);
+                $em->getManager()->flush();
                 return $this->redirect("/");
             }
         }

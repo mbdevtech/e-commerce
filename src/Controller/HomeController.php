@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Brand;
 use App\Entity\Photo;
 use App\Entity\Product;
+use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,30 +19,30 @@ class HomeController extends AbstractController
 {
 
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(ManagerRegistry $manager): Response
     {   
         // extract 10 last items from new arrivals if count > 10
-        $newarrivals = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'New Arrival']);
+        $newarrivals = $manager->getRepository(Product::class)->findBy(['Specification' => 'New Arrival']);
         $nbitems = count($newarrivals);
         $newarrivals = ($nbitems < 10 ? $newarrivals : array_slice($newarrivals, $nbitems-10, $nbitems-1));
         // extract 10 last items from new arrivals if count > 10
-        $bestsellers = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Best Seller']);
+        $bestsellers = $manager->getRepository(Product::class)->findBy(['Specification' => 'Best Seller']);
         $nbitems = count($bestsellers);
         $bestsellers = ($nbitems < 10 ? $bestsellers : array_slice($bestsellers, $nbitems-10, $nbitems-1));
         // extract 10 last items from new arrivals if count > 10
-        $hotdeals = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Hot Deal']);
+        $hotdeals = $manager->getRepository(Product::class)->findBy(['Specification' => 'Hot Deal']);
         $nbitems = count($hotdeals);
         $hotdeals  = ($nbitems < 10 ? $hotdeals : array_slice($hotdeals, $nbitems-10, $nbitems-1));
         // extract 10 last items from new arrivals if count > 10
-        $featured = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Featured']);
+        $featured = $manager->getRepository(Product::class)->findBy(['Specification' => 'Featured']);
         $nbitems = count($featured);
         $featured = ($nbitems < 10 ? $featured : array_slice($featured,$nbitems-10, $nbitems-1));
         // extract 10 last items from new arrivals if count > 10
-        $topdeals = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Top Deal']);
+        $topdeals = $manager->getRepository(Product::class)->findBy(['Specification' => 'Top Deal']);
         $nbitems = count($topdeals);
         $topdeals = ($nbitems < 10 ? $topdeals : array_slice($topdeals, $nbitems-10, $nbitems-1));
         // extract 10 last items from new arrivals if count > 10
-        $discount = $this->getDoctrine()->getRepository(Product::class)->findBy(['Specification' => 'Discount']);
+        $discount = $manager->getRepository(Product::class)->findBy(['Specification' => 'Discount']);
         $nbitems = count($bestsellers);
         $discount = ($nbitems < 10 ? $discount : array_slice($discount, $nbitems-10, $nbitems-1));
         return $this->render('home/index.html.twig', [
@@ -51,7 +52,7 @@ class HomeController extends AbstractController
             'featured' => $featured,
             'topdeal' => $topdeals,
             'discount' => $discount,
-            'prod_photos' => $this->getDoctrine()->getRepository(Photo::class)->findAll()
+            'prod_photos' => $manager->getRepository(Photo::class)->findAll()
         ]);
     }
 
@@ -64,12 +65,12 @@ class HomeController extends AbstractController
     }
 
     #[Route('/search', name: 'search')]
-    public function search(Request $request): Response
+    public function search(ManagerRegistry $manager, Request $request): Response
     {
         $criteria = $request->request->get("search");
         // search the desired category
-        $mycategory = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['Name' => $criteria]);
-        $mybrand = $this->getDoctrine()->getRepository(Brand::class)->findOneBy(['name' => $criteria]);
+        $mycategory = $manager->getRepository(Category::class)->findOneBy(['Name' => $criteria]);
+        $mybrand = $manager->getRepository(Brand::class)->findOneBy(['name' => $criteria]);
         // if found category
         if ($mycategory){
             return $this->redirectToRoute('single_category',['category'=> $criteria]);
