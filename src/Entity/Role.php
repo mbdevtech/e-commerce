@@ -26,7 +26,7 @@ class Role
 
     public function __construct()
     {
-        $this->userRoles = new ArrayCollection();
+       // $this->userRoles = new ArrayCollection();
     }
 
     public function getId(): ?int

@@ -20,7 +20,8 @@ class User_Brand_Fixtures extends Fixture implements FixtureGroupInterface
         $factory = new PasswordHasherFactory(['auto' => ['algorithm' => 'auto']]);
         // use a password hasher
         $hasher = $factory->getPasswordHasher('auto');
-
+        
+        // create admin user 
         $admin_user = new User();
         $admin_user->setEmail("admin@myshop.com");
         $admin_user->setPassword($hasher->hash("admin"));
