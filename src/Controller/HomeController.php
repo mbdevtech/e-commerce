@@ -8,6 +8,7 @@ use App\Entity\Photo;
 use App\Entity\Product;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
+use PhpParser\Node\Stmt\Catch_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,11 +18,10 @@ use function PHPUnit\Framework\returnSelf;
 
 class HomeController extends AbstractController
 {
-
     #[Route('/', name: 'home')]
     public function index(ManagerRegistry $manager): Response
     {   
-        // extract 10 last items from new arrivals if count > 10
+       // extract 10 last items from new arrivals if count > 10
         $newarrivals = $manager->getRepository(Product::class)->findBy(['Specification' => 'New Arrival']);
         $nbitems = count($newarrivals);
         $newarrivals = ($nbitems < 10 ? $newarrivals : array_slice($newarrivals, $nbitems-10, $nbitems-1));
