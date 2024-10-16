@@ -65,8 +65,11 @@ class CheckoutController extends AbstractController
         $items = $cs->List($session, $repo);
        
         // extract a user for test purpose
-        $user = (($this->getUser() != null) ? $this->getUser() :
-            $checkout->getManager()->getRepository(User::class)->find(12));
+        $user = $this->getUser();
+           // $checkout->getManager()->getRepository(User::class)->find(12));
+        if ($user == null)   
+            return $this->redirectToRoute("user_login");
+           ///////// add a flag to come back to checkout after login
         
         // create the order by calling the service
         $order = $checkout->orderAdd($user, $items);

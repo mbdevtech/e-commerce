@@ -26,8 +26,10 @@ class AccountController extends AbstractController
     #[Route('/login', name: 'user_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('home');
+        if ($this->getUser())
+        {
+             
+            return $this->redirectToRoute("home");
         }
 
         // get the login error if there is one
