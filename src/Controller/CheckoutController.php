@@ -35,26 +35,26 @@ class CheckoutController extends AbstractController
 
     // This Route allow to implement a Stripe Custom Checkout
     #[Route('/checkout/create-charge', name: 'stripe_charge')]
-    public function createCharge(SessionInterface $session, ProductRepository $repo, CartService $cs, Request $request)
-    {
-        Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
-        $token = $request->request->get('stripeToken');
+    // public function createCharge(SessionInterface $session, ProductRepository $repo, CartService $cs, Request $request)
+    // {
+    //     Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
+    //     $token = $request->request->get('stripeToken');
         
-        Stripe\Charge::create(
-            [
-                'amount' => $cs->Total($session, $repo) * 100,
-                'currency' => 'usd',
-                'source' => $token,
-                'description' => 'My First Test Charge (created for API docs)',            ]
-            );
-        // empty cart if payment success
-        $cs->Empty($session);
-        $this->addFlash(
-            'success',
-            'Payment Successful!'
-        );
-        return $this->redirectToRoute('shopping_checkout', [], Response::HTTP_SEE_OTHER);
-    }
+    //     Stripe\Charge::create(
+    //         [
+    //             'amount' => $cs->Total($session, $repo) * 100,
+    //             'currency' => 'usd',
+    //             'source' => $token,
+    //             'description' => 'My First Test Charge (created for API docs)',            ]
+    //         );
+    //     // empty cart if payment success
+    //     $cs->Empty($session);
+    //     $this->addFlash(
+    //         'success',
+    //         'Payment Successful!'
+    //     );
+    //     return $this->redirectToRoute('shopping_checkout', [], Response::HTTP_SEE_OTHER);
+    // }
 
     // This Route allow to implement a Stripe hosted Checkout
     #[Route('/checkout/stripe', name: 'stripe-checkout')]
@@ -98,9 +98,9 @@ class CheckoutController extends AbstractController
                 'allowed_countries' => ['CA', 'US']
             ],
             // get dynamic url from $_SERVER ot HTTP ewquest
-            'success_url' => 'https://localhost:8000/checkout/success?session_id={CHECKOUT_SESSION_ID}&order_id='.$order->getId(),
+            'success_url' => 'http://localhost:8000/checkout/success?session_id={CHECKOUT_SESSION_ID}&order_id='.$order->getId(),
             //'success_url' => 'https://localhost:8000/checkout/success'.'/' . $order->getId(),
-            'cancel_url' => 'https://localhost:8000/checkout/cancel',
+            'cancel_url' => 'http://localhost:8000/checkout/cancel',
         ]);
 
         // redirect to stripe hosted checkout page
