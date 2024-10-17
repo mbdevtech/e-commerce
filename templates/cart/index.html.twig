@@ -3,8 +3,13 @@
 {% block main %}
 	<!--Shopping Cart Area Strat-->
 	{% if cart|length == 0 %}
-		<h2>
-			No items added...</h2>
+		<div class="container">	
+			<h6 mr-50>
+				The cart is empty. No items added...
+			</h6>
+			<img src="{{asset('layout/images/empty-cart.png')}}" alt="">
+		</div>		
+
 	{% else %}
 		<div
 			class="Shopping-cart-area pt-60 pb-60">
