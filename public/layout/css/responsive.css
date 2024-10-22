@@ -416,8 +416,9 @@ Note: responsive.css, All Responsive CSS Style For This Theme Included In This F
 		text-align: center;
 	}
 	.hm-searchbox {
-		min-width: 268px;
-		float: unset;
+		display: flex;
+		min-width: 300px;
+		float: left;
 	}
 	.header-middle-right {
 		display: flex;
@@ -641,8 +642,9 @@ Note: responsive.css, All Responsive CSS Style For This Theme Included In This F
 		text-align: center;
 	}
 	.hm-searchbox {
-		min-width: 268px;
-		float: unset;
+		display:flex;
+		min-width: 250px;
+		float:left;
 	}
 	.hm-searchbox .nice-select.select-search-category {
 		display: none;
