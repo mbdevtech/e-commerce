@@ -102,7 +102,7 @@
 													<a href="{{path('detail_product',{'id': f.id})}}">
 														<img src="{{asset(f.thumb)}} " alt="{{f.name}}">												    
 													</a>
-													<span class="sticker">New</span>
+													<span class="sticker">{{f.specification | slice(0,4)}}</span>
 												</div>
 												<div class="product_desc">
 													<div class="product_desc_info">
