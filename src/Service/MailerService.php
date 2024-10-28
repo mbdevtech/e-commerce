@@ -13,6 +13,7 @@ class MailerService
     //    1- After user registration
     //    2- Succesfull payment
     //    3- Contact page form
+    //    4- Newsletter subscription
     //     
     private MailerInterface $mailer;
 
@@ -54,9 +55,13 @@ class MailerService
                 $subject = "Thanks for buying our products!";
                 $template = "emails/confirmation.html.twig";
                 break;
-            case 3: // after payment
+            case 3: // contact page
                 $subject = "Thanks for your feedback";
                 $template = "emails/contact.html.twig";
+                break;
+            case 4: // contact page
+                $subject = "Thanks for your newsletter subsription";
+                $template = "emails/newsletter.html.twig";
                 break;
             default:
                 break;

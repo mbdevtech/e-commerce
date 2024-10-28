@@ -64,9 +64,9 @@ class CheckoutController extends AbstractController
         // cart line items
         $items = $cs->List($session, $repo);
        
-        // extract a user for test purpose
+        // find the customer info
         $user = $this->getUser();
-           // $checkout->getManager()->getRepository(User::class)->find(12));
+           
         if ($user == null)   
             return $this->redirectToRoute("user_login");
            ///////// add a flag to come back to checkout after login
@@ -99,7 +99,7 @@ class CheckoutController extends AbstractController
             ],
             // get dynamic url from $_SERVER ot HTTP ewquest
             'success_url' => 'http://localhost:8000/checkout/success?session_id={CHECKOUT_SESSION_ID}&order_id='.$order->getId(),
-            //'success_url' => 'https://localhost:8000/checkout/success'.'/' . $order->getId(),
+            
             'cancel_url' => 'http://localhost:8000/checkout/cancel',
         ]);
 
