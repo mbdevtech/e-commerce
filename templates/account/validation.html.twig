@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block main %}
+<div class="container">
+    {% if valid %}
+    <div class="mt-4 p-4 bg-success text-white rounded">
+        <h2>Good news</h2>
+        <p>Thanks for signing up. You can login now and start buying...
+        <span>
+            <a class="btn btn-light" href="{{path('user_login')}}">Login Now</a>
+        </span>
+       </p>
+    </div>
+    {% else %}
+    <div class="mt-4 p-4 bg-danger text-white center rounded">
+        <h2>Oops</h2>
+        <p>The data is not validated. Something went wrong with the form fields. Enter a valid email and retype the same password...
+        <span>
+            <a class="btn btn-light" href="{{path('user_register')}}">Register again</a>
+        </span>
+    </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -43,20 +43,25 @@ class AccountController extends AbstractController
     #[Route('/register', name: 'user_register')]
     public function register(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher): Response
     {
-        if ($request->request->get('password') !== $request->request->get('confirm')) {
-            echo ('Confirmation Password does not match with Password...');
-        } else {
-            if ($request->request->get('email') != null && 
-                $request->request->get('password') != null) {
+    
+        if ($request->request->get('email') != null && 
+                $request->request->get('password') != null &&
+                $request->request->get('password') === $request->request->get('confirm'))
+         {
                 $user = new User();
                 # $user->firstname = $request->request->get('first_name');
                 # $user->lastname = $request->request->get('last_name');
                 $user->setEmail($request->request->get('email'));
                 $user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
                 $em->getManager()->persist($user);
-                $em->getManager()->flush();
-                return $this->redirect("/");
-            }
+                try {
+                    $em->getManager()->flush();
+                    //return $this->redirectToRoute("user_login");
+                    return $this->render('account/validation.html.twig', ['valid'=>true]);
+                } catch (\Throwable $th) 
+                {
+                    return $this->render('account/validation.html.twig', ['valid'=>false]);
+                }        
         }
         return $this->render('account/register.html.twig');
     }
