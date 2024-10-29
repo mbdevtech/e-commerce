@@ -81,8 +81,11 @@
 											<li>Subtotal
 												<span>${{total}}</span>
 											</li>
+											<li>Taxes(15%)
+												<span>${{total * 0.15}}</span>
+											</li>
 											<li>Total
-												<span>${{total}}</span>
+												<span>${{total * 1.15}}</span>
 											</li>
 										</ul>
 										<a href="{{path('stripe-checkout')}}">Proceed to checkout</a>
