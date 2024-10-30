@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +43,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/register', name: 'user_register')]
-    public function register(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher): Response
+    public function register(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher, MailerService $ms): Response
     {
     
         if ($request->request->get('email') != null && 
@@ -56,7 +58,8 @@ class AccountController extends AbstractController
                 $em->getManager()->persist($user);
                 try {
                     $em->getManager()->flush();
-                    //return $this->redirectToRoute("user_login");
+                    // send confirmation mail after user registration with items list
+                    $ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
                     return $this->render('account/validation.html.twig', ['valid'=>true]);
                 } catch (\Throwable $th) 
                 {
