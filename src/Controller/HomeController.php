@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Brand;
+use App\Entity\Feedback;
 use App\Entity\Photo;
 use App\Entity\Product;
 use Doctrine\Persistence\ManagerRegistry;
@@ -83,11 +84,42 @@ class HomeController extends AbstractController
                   
     }
 
+    #[Route('/feedback', name: 'feedback', methods:['POST'])]
+    public function feedback(ManagerRegistry $manager, Request $request): Response
+    {
+
+        $customerName = $request->request->get("customerName");
+        $customerEmail = $request->request->get("customerEmail");
+        $contactSubject = $request->request->get("contactSubject");
+        $contactMessage = $request->request->get("contactMessage");
+
+        // validate the form inputs
+        if (($customerName != null) && ($customerEmail != null) &&
+            ($contactSubject != null) && ($contactMessage != null)){
+             // save the fields data
+            $feed = new Feedback();
+            $feed->setName($customerName);
+            $feed->setEmail($customerEmail);
+            $feed->setSubject($contactSubject);
+            $feed->setMessage($contactMessage);
+
+            $manager->getManager()->persist($feed);
+            $manager->getManager()->flush();
+            
+            $flash = 1;
+            }
+            else{
+                $flash = 2;
+             }  
+            
+            return $this->redirectToRoute('contact', ['flash' => $flash]);
+    }
+
     #[Route('/contact', name: 'contact')]
-    public function contact(): Response
+    public function contact(?int $flash): Response
     {
         return $this->render('home/contact.html.twig', [
-            'controller_name' => 'HomeController',
+            'flash' => $flash,
         ]);
     }
 }
