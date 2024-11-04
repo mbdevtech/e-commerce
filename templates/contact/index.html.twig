@@ -1,26 +1,6 @@
-
 {% extends './base.html.twig' %}
 
 {% block main %}
-	{% if flash == 1 %}
-	<div class="mt-4 p-4 bg-success text-white rounded">
-		<h2>Good news</h2>
-		<p>Thanks for your feedback. We take care of it and You will receive a response very soon...
-		<span>
-			<a class="btn btn-light" href="{{path('shop-grid')}}">Continue Shopping</a>
-		</span>
-	</p>
-	</div>
-	{% elseif flash == 2 %}
-	<div class="mt-4 p-4 bg-danger text-white center rounded">
-		<h2>Oops</h2>
-		<p>The data is not validated. Something went wrong with the form fields. Enter a complete and valid data.
-		<span>
-			<a class="btn btn-light" href="{{path('contact')}}">Try again</a>
-		</span>
-	</p>
-	</div>
-	{% endif %}
 	<!-- Begin Li's Breadcrumb Area -->
 	<div class="breadcrumb-area">
 		<div class="container">

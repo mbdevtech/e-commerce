@@ -1,25 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block main %}
-
 <div class="container">
-    {% if success %}
-    <div class="mt-4 p-4 bg-success text-white rounded">
-        <h2>Good news</h2>
-        <p>Thanks for your feedback. We take care of it and You will receive a response very soon...
-        <span>
-            <a class="btn btn-light" href="{{path('shop-grid')}}">Continue Shopping</a>
-        </span>
-       </p>
-    </div>
-    {% else %}
-    <div class="mt-4 p-4 bg-danger text-white center rounded">
-        <h2>Oops</h2>
-        <p>The data is not validated. Something went wrong with the form fields. Enter a complete and valid data.
-        <span>
-            <a class="btn btn-light" href="{{path('contact')}}">Try again</a>
-        </span>
-    </p>
-    </div>
-    {% endif %}
+	{% if valid %}
+	<div class="m-3 p-3 bg-success text-white rounded">
+		<h2>Good news</h2>
+		<p>Thanks for your feedback. We take care of it and You will receive a response very soon...
+		<span>
+			<a class="btn btn-light" href="{{path('shop-grid')}}">Go to Shopping</a>
+		</span>
+	 </p>
+	</div>
+	{% else %}
+	<div class="m3-3 p-3 bg-danger text-white center rounded">
+		<h2>Oops</h2>
+		<p>The data is not validated. Something went wrong with the form fields. Enter a complete and valid data.
+		<span>
+			<a class="btn btn-light" href="{{path('contact')}}">Try again</a>
+		</span>
+	</p>
+	</div>
+	{% endif %}
 </div>
 {% endblock %}

@@ -14,15 +14,12 @@ class ContactController extends AbstractController
     #[Route('/contact', name: 'contact')]
     public function index(): Response
     {
-        return $this->render('contact/index.html.twig', [
-            'controller_name' => 'ContactController',
-        ]);
+        return $this->render('contact/index.html.twig');
     }
 
-    #[Route('/contact/feedback', name: 'feedback', methods:['POST'])]
+    #[Route('/contact/feedback', name: 'feedback')]
     public function feedback(ManagerRegistry $manager, HttpFoundationRequest $request): Response
     {
-
         $customerName = $request->request->get("customerName");
         $customerEmail = $request->request->get("customerEmail");
         $contactSubject = $request->request->get("contactSubject");
@@ -30,7 +27,8 @@ class ContactController extends AbstractController
 
         // validate the form inputs
         if (($customerName != null) && ($customerEmail != null) &&
-            ($contactSubject != null) && ($contactMessage != null)){
+            ($contactSubject != null) && ($contactMessage != null))
+            {
              // save the fields data
             $feed = new Feedback();
             $feed->setName($customerName);
@@ -39,14 +37,25 @@ class ContactController extends AbstractController
             $feed->setMessage($contactMessage);
 
             $manager->getManager()->persist($feed);
-            $manager->getManager()->flush();
+            try {
+                $manager->getManager()->flush();
+                // send confirmation mail after message registration
+                //$ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
+                return $this->render('contact/feedback.html.twig', ['valid'=>true]);
+            } catch (\Throwable $th) 
+            {
+                return $this->render('contact/feedback.html.twig', ['valid'=>false]);
+            } 
+        }
             
-            $flash = 1;
-            }
-            else{
-                $flash = 2;
-             }  
-            
-            return $this->redirectToRoute('contact', ['flash' => $flash]);
+        return $this->render('home/contact.html.twig');
+    }
+
+    #[Route('/contact/result', name: 'result')]
+    public function result(): Response
+    {
+        return $this->render('contact/feedback.html.twig', [
+            'flash' => 1,
+        ]);
     }
 }
