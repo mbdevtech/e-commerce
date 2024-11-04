@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block main %}
+<div class="container">
+	{% if valid %}
+	<div class="m-3 p-3 bg-success text-white rounded">
+		<h2>Good news</h2>
+		<p>Thanks for your subscription. We feed you with our news on regular bases...
+		<span>
+			<a class="btn btn-light" href="{{path('shop-grid')}}">Go to Shopping</a>
+		</span>
+	 </p>
+	</div>
+	{% else %}
+	<div class="m3-3 p-3 bg-danger text-white center rounded">
+		<h2>Oops</h2>
+		<p>The data is not validated. Something went wrong with the email. Enter a valid email.
+		<span>
+			<a class="btn btn-light" href="{{path('home')}}">Try again</a>
+		</span>
+	</p>
+	</div>
+	{% endif %}
+</div>
+{% endblock %}

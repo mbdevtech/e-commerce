@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Brand;
-use App\Entity\Feedback;
+use App\Entity\Subscriber;
 use App\Entity\Photo;
 use App\Entity\Product;
+use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use PhpParser\Node\Stmt\Catch_;
@@ -82,5 +83,32 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute('home');
                 }
                   
+    }
+
+    #[Route('/subscribe', name: 'newsletter')]
+    public function feedback(ManagerRegistry $manager, Request $request, MailerService $ms): Response
+    {
+        $customerEmail = $request->request->get("subscribeEmail");
+
+        // validate the form inputs
+        if ($customerEmail != null)
+            {
+             // save the fields data
+            $subscriber = new Subscriber();
+            $subscriber->setEmail($customerEmail);
+
+            $manager->getManager()->persist($subscriber);
+            try {
+                $manager->getManager()->flush();
+                // send confirmation mail after message registration
+                $ms->twigEmailSend(4,$subscriber->getEmail(), $subscriber->getEmail(), []);
+                return $this->render('home/newsletter.html.twig', ['valid'=>true]);
+            } catch (\Throwable $th) 
+            {
+                return $this->render('home/newsletter.html.twig', ['valid'=>false]);
+            } 
+        }
+            
+        return $this->redirectToRoute('home');
     }
 }
