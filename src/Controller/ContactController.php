@@ -49,7 +49,7 @@ class ContactController extends AbstractController
             } 
         }
             
-        return $this->render('home/contact.html.twig');
+        return $this->render('contact/index.html.twig');
     }
 
     #[Route('/contact/result', name: 'result')]
