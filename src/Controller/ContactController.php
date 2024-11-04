@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Feedback;
+use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
@@ -18,7 +19,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/contact/feedback', name: 'feedback')]
-    public function feedback(ManagerRegistry $manager, HttpFoundationRequest $request): Response
+    public function feedback(ManagerRegistry $manager, HttpFoundationRequest $request, MailerService $ms): Response
     {
         $customerName = $request->request->get("customerName");
         $customerEmail = $request->request->get("customerEmail");
@@ -40,7 +41,7 @@ class ContactController extends AbstractController
             try {
                 $manager->getManager()->flush();
                 // send confirmation mail after message registration
-                //$ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
+                $ms->twigEmailSend(3,$feed->getEmail(), $feed->getEmail(), []);
                 return $this->render('contact/feedback.html.twig', ['valid'=>true]);
             } catch (\Throwable $th) 
             {
