@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FeedbackRepository::class)
- * @UniqueEntity(fields="email", message="Email already taken")
  */
 class Feedback
 {
@@ -26,10 +25,9 @@ class Feedback
     private $Name;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180)
      * @Assert\NotBlank
      * @Assert\Email
-     * @Assert\Unique
      */
     private $email;
 
