@@ -72,12 +72,13 @@ class AccountController extends AbstractController
     #[Route('/profile', name: 'user_profile')]
     public function profile(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher, MailerService $ms): Response
     {
-    
+
         if ($request->request->get('email') != null && 
                 $request->request->get('password') != null &&
                 $request->request->get('password') === $request->request->get('confirm'))
-         {
+         {      
                 $user = new User();
+                //$user = $this->getUser();
                 # $user->firstname = $request->request->get('first_name');
                 # $user->lastname = $request->request->get('last_name');
                 $user->setEmail($request->request->get('email'));
@@ -93,7 +94,7 @@ class AccountController extends AbstractController
                     return $this->render('account/validation.html.twig', ['valid'=>false]);
                 }        
         }
-        return $this->render('account/register.html.twig');
+        return $this->render('account/profile.html.twig', ['profile' => $this->getUser()]);
     }
 
     #[Route('/history', name: 'user_history')]
