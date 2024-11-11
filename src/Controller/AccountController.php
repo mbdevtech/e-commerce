@@ -69,6 +69,60 @@ class AccountController extends AbstractController
         return $this->render('account/register.html.twig');
     }
 
+    #[Route('/profile', name: 'user_profile')]
+    public function profile(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher, MailerService $ms): Response
+    {
+    
+        if ($request->request->get('email') != null && 
+                $request->request->get('password') != null &&
+                $request->request->get('password') === $request->request->get('confirm'))
+         {
+                $user = new User();
+                # $user->firstname = $request->request->get('first_name');
+                # $user->lastname = $request->request->get('last_name');
+                $user->setEmail($request->request->get('email'));
+                $user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
+                $em->getManager()->persist($user);
+                try {
+                    $em->getManager()->flush();
+                    // send confirmation mail after user registration with items list
+                    $ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
+                    return $this->render('account/validation.html.twig', ['valid'=>true]);
+                } catch (\Throwable $th) 
+                {
+                    return $this->render('account/validation.html.twig', ['valid'=>false]);
+                }        
+        }
+        return $this->render('account/register.html.twig');
+    }
+
+    #[Route('/history', name: 'user_history')]
+    public function history(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher, MailerService $ms): Response
+    {
+    
+        if ($request->request->get('email') != null && 
+                $request->request->get('password') != null &&
+                $request->request->get('password') === $request->request->get('confirm'))
+         {
+                $user = new User();
+                # $user->firstname = $request->request->get('first_name');
+                # $user->lastname = $request->request->get('last_name');
+                $user->setEmail($request->request->get('email'));
+                $user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
+                $em->getManager()->persist($user);
+                try {
+                    $em->getManager()->flush();
+                    // send confirmation mail after user registration with items list
+                    $ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
+                    return $this->render('account/validation.html.twig', ['valid'=>true]);
+                } catch (\Throwable $th) 
+                {
+                    return $this->render('account/validation.html.twig', ['valid'=>false]);
+                }        
+        }
+        return $this->render('account/register.html.twig');
+    }
+
     #[Route('/logout', name: 'app_logout')]
     public function logout()
     {
