@@ -21,3 +21,6 @@
 ###> todo steps ###
 /todo.txt
 
+###> env file ###
+.env
+

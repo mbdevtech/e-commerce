@@ -54,10 +54,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="OrderId")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->userRoles = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
