@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Profile;
 use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Null_;
@@ -51,13 +52,24 @@ class AccountController extends AbstractController
                 $request->request->get('password') === $request->request->get('confirm'))
          {
                 $user = new User();
-                # $user->firstname = $request->request->get('first_name');
-                # $user->lastname = $request->request->get('last_name');
                 $user->setEmail($request->request->get('email'));
                 $user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
                 $em->getManager()->persist($user);
+                $em->getManager()->flush();
+                               
                 try {
-                    $em->getManager()->flush();
+
+                // create the profile
+                    $profile = new Profile();
+                    $profile->setUser($user);
+                    $profile->setFirstName($request->request->get('first_name'));
+                    $profile->setLastName($request->request->get('last_name'));
+                    $profile->setEmail($request->request->get('email'));
+                    $profile->setPhoneNumber('XXXXXXXXXX');
+                    $profile->setPhoto('image.png');
+                    $em->getManager()->persist($profile);
+                    $em->getManager()->flush();                    
+
                     // send confirmation mail after user registration with items list
                     $ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
                     return $this->render('account/validation.html.twig', ['valid'=>true]);

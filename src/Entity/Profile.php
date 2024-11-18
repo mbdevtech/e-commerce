@@ -35,7 +35,7 @@ class Profile
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $LastNane;
+    private $LastName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -88,14 +88,14 @@ class Profile
         return $this;
     }
 
-    public function getLastNane(): ?string
+    public function getLastName(): ?string
     {
-        return $this->LastNane;
+        return $this->LastName;
     }
 
-    public function setLastNane(string $LastNane): self
+    public function setLastName(string $LastName): self
     {
-        $this->LastNane = $LastNane;
+        $this->LastName = $LastName;
 
         return $this;
     }
