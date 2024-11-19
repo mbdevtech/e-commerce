@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Photo;
 use App\Entity\User;
 use App\Entity\Profile;
 use App\Service\MailerService;
@@ -84,29 +85,41 @@ class AccountController extends AbstractController
     #[Route('/profile', name: 'user_profile')]
     public function profile(ManagerRegistry $em, Request $request, UserPasswordHasherInterface $hasher, MailerService $ms): Response
     {
+        $user = $this->getUser();                            
+        $profile = $em->getManager()->getRepository(Profile::class)->findOneBy(['User' => $user]);
 
-        if ($request->request->get('email') != null && 
-                $request->request->get('password') != null &&
-                $request->request->get('password') === $request->request->get('confirm'))
-         {      
-                $user = new User();
-                //$user = $this->getUser();
-                # $user->firstname = $request->request->get('first_name');
-                # $user->lastname = $request->request->get('last_name');
-                $user->setEmail($request->request->get('email'));
-                $user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
-                $em->getManager()->persist($user);
-                try {
+        $firstname = $request->request->get('first_name') ;
+        $lastname = $request->request->get('last_name');
+        $email = $request->request->get('email');
+        $photo = $request->request->get('photo');
+        $phone = $request->request->get('phone');
+        
+        if($lastname && $firstname && $email && $phone && $photo)
+        {
+            try {
+                dd($profile);
+    
+                    $profile->setFirstName($firstname) ;
+                    $profile->setLastName($lastname);
+                    $profile->setEmail($email);
+                    $profile->setPhoneNumber($phone);
+                    $profile->setPhoto($photo);
+                    
+                    //$user->setPassword($hasher->hashPassword($user, $request->request->get('password')));
+                    $em->getManager()->persist($profile);
+                    
                     $em->getManager()->flush();
-                    // send confirmation mail after user registration with items list
-                    $ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
+                    // send confirmation mail after profile update
+                    //$ms->twigEmailSend(1,$user->getEmail(), $user->getEmail(), []);
                     return $this->render('account/validation.html.twig', ['valid'=>true]);
-                } catch (\Throwable $th) 
-                {
-                    return $this->render('account/validation.html.twig', ['valid'=>false]);
-                }        
+            } catch (\Throwable $th) 
+                    {
+                        return $this->render('account/validation.html.twig', ['valid'=>false]);
+                    }
         }
-        return $this->render('account/profile.html.twig', ['profile' => $this->getUser()]);
+                
+        
+        return $this->render('account/profile.html.twig', ['profile' => $profile]);
     }
 
     #[Route('/history', name: 'user_history')]

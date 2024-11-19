@@ -25,12 +25,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $FirstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $LastName;
+
+    /**
+     * @ORM\Column(type="string", length=45)
+     */
+    private $Phone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Photo;
+
+    /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank
      * @Assert\Email
      * @Assert\Unique
      */
-     
     private $email;
 
     /**
@@ -71,14 +90,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+    public function getPhoto(): ?string
+    {
+        return $this->Photo;
+    }
+
+    public function setPhoto(string $Photo): self
+    {
+        $this->Photo = $Photo;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->FirstName;
+    }
+
+    public function setFirstName(string $FirstName): self
+    {
+        $this->FirstName = $FirstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->LastName;
+    }
+
+    public function setLastName(string $LastName): self
+    {
+        $this->LastName = $LastName;
+
+        return $this;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email)
+    public function setEmail(string $Email): self
     {
-        $this->email = $email;
+        $this->email = $Email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->Phone;
+    }
+
+    public function setPhone(string $PhoneNumber): self
+    {
+        $this->Phone = $PhoneNumber;
 
         return $this;
     }
